@@ -4,16 +4,20 @@
   "description": "Table of Contents",
   "main": "index.js",
   "scripts": {
-    "dev": "tsc --watch",
+    "dev": "concurrently -p \"[{name}]\" -n \"tsc,nodemon\" -c \"bgBlue.bold,bgMagenta.bold\" \"pnpm watch:ts\" \"pnpm watch:static\"",
+    "watch:ts": "tsc --watch",
     "copy:manifest": "copyfiles manifest.json dist/",
     "copy:html": "copyfiles -u -2 src/**/*.html dist/",
-    "copy:all": "pnpm copy:manifest && pnpm copy:html"
+    "copy:all": "pnpm copy:manifest && pnpm copy:html",
+    "watch:static": "nodemon --watch ./ --ignore dist/ --ignore node_modules/ --ext html,css,json --exec \"pnpm copy:all\""
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/chrome": "^0.0.270",
+    "concurrently": "^9.0.1",
     "copyfiles": "^2.4.1",
+    "nodemon": "^3.1.4",
     "typescript": "^5.6.2"
   }
 }
