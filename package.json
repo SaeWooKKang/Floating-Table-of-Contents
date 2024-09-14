@@ -8,8 +8,9 @@
     "watch:ts": "tsc --watch",
     "copy:manifest": "copyfiles manifest.json dist/",
     "copy:html": "copyfiles -u -2 src/**/*.html dist/",
-    "copy:all": "pnpm copy:manifest && pnpm copy:html",
-    "watch:static": "nodemon --watch ./ --ignore dist/ --ignore node_modules/ --ext html,css,json --exec \"pnpm copy:all\""
+    "copy:images": "copyfiles -u -2 src/**/*.png dist/",
+    "copy:all": "pnpm copy:manifest && pnpm copy:html && pnpm copy:images",
+    "watch:static": "nodemon --watch ./ --ignore dist/ --ignore node_modules/ --ext html,css,json,png --exec \"pnpm copy:all\""
   },
   "author": "",
   "license": "ISC",
