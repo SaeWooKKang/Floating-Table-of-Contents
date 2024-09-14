@@ -1,0 +1,22 @@
+{
+  "name": "Mokcha",
+  "description": "Table of Contents",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": ["scripting", "activeTab"],
+  "action": {
+    "default_popup": "action/index.html"
+  },
+  "content_scripts": [
+    {
+      "js": ["contentScript/index.js"],
+      "matches": [
+        "https://*/*",
+        "http://localhost/*"
+      ]
+    }
+  ],
+  "background": {
+    "service_worker": "background/index.js"
+  }
+}

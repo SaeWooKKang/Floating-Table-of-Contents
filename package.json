@@ -1,0 +1,19 @@
+{
+  "name": "real-mokcha",
+  "version": "1.0.0",
+  "description": "Table of Contents",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsc --watch",
+    "copy:manifest": "copyfiles manifest.json dist/",
+    "copy:html": "copyfiles -u -2 src/**/*.html dist/",
+    "copy:all": "pnpm copy:manifest && pnpm copy:html"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chrome": "^0.0.270",
+    "copyfiles": "^2.4.1",
+    "typescript": "^5.6.2"
+  }
+}
