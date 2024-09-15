@@ -1,6 +1,6 @@
 {
   "name": "Mokcha",
-  "description": "Table of Contents",
+  "description": "Floating Table of Contents",
   "version": "1.0",
   "manifest_version": 3,
   "permissions": [
@@ -26,5 +26,11 @@
   ],
   "background": {
     "service_worker": "background/index.js"
+  },
+  "icons": {
+    "16": "images/table-16.png",
+    "32": "images/table-32.png",
+    "48": "images/table-48.png",
+    "128": "images/table-128.png"
   }
 }
