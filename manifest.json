@@ -32,5 +32,14 @@
     "32": "images/table-32.png",
     "48": "images/table-48.png",
     "128": "images/table-128.png"
+  },
+   "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+B",
+        "mac": "Command+B"
+      },
+      "description": "Toggle Mokcha"
+    }
   }
 }
