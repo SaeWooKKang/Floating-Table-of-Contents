@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Table of Contents",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "concurrently -p \"[{name}]\" -n \"tsc,nodemon\" -c \"bgBlue.bold,bgMagenta.bold\" \"pnpm watch:ts\" \"pnpm watch:static\"",
     "watch:ts": "tsc --watch",

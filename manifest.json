@@ -25,7 +25,8 @@
     }
   ],
   "background": {
-    "service_worker": "background/index.js"
+    "service_worker": "background/index.js",
+    "type": "module"
   },
   "icons": {
     "16": "images/table-16.png",
