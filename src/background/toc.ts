@@ -1,35 +1,5 @@
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.action.setBadgeBackgroundColor({ color: "#f4fb04" });
-  chrome.action.setBadgeText({ text: "" });
-});
 
-chrome.action.onClicked.addListener(async (tab) => {
-  if (!tab.url?.startsWith('http') || !tab.id) {
-    return
-  }
-
-  const prevState = await chrome.action.getBadgeText({ tabId: tab.id });
-  const nextState = prevState === 'on' ? '' : 'on'
-
-  await chrome.action.setBadgeText({
-    tabId: tab.id,
-    text: nextState,
-  });
-
-  if (nextState === "on") {
-    await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: generateTOC,
-    });
-  } else {
-    await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: removeTOC,
-    });
-  }
-});
-
-function generateTOC() {
+export function generateTOC() {
   const headers = document.querySelectorAll('h1, h2, h3, h4');
   const tocList = document.createElement('ul');
   tocList.id = 'extension-toc';
@@ -197,7 +167,7 @@ function generateTOC() {
   resizeObserver.observe(tocContainer);
 }
 
-function removeTOC() {
+export function removeTOC() {
   const tocContainer = document.getElementById('extension-toc-container');
   if (tocContainer) {
     tocContainer.remove();
