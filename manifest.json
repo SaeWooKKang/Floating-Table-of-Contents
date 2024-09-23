@@ -17,7 +17,9 @@
   },
   "content_scripts": [
     {
-      "js": ["contentScript/index.js"],
+      "js": [
+        "contentScript/index.js"
+      ],
       "matches": [
         "https://*/*",
         "http://localhost/*"

@@ -1,5 +1,3 @@
-import {generateTOC,removeTOC} from './toc.js'
-
 chrome.runtime.onInstalled.addListener(() => {
   chrome.action.setBadgeBackgroundColor({ color: "#f4fb04" });
   chrome.action.setBadgeText({ text: "" });
@@ -19,14 +17,14 @@ chrome.action.onClicked.addListener(async (tab) => {
   });
 
   if (nextState === "on") {
-    await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: generateTOC,
-    });
+    chrome.tabs.sendMessage(
+      tab.id ?? chrome.tabs.TAB_ID_NONE, 
+      { status: "on" }
+    );
   } else {
-    await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: removeTOC,
-    });
+    chrome.tabs.sendMessage(
+      tab.id ?? chrome.tabs.TAB_ID_NONE, 
+      { status: "off" }
+    );
   }
 });

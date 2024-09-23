@@ -1,1 +1,2 @@
-console.log('hello, contentScript!');
+import './event.js'
+import './application/index.js'

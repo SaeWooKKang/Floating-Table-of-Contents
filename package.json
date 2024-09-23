@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "concurrently -p \"[{name}]\" -n \"tsc,nodemon\" -c \"bgBlue.bold,bgMagenta.bold\" \"pnpm watch:ts\" \"pnpm watch:static\"",
+    "dev": "concurrently -p \"[{name}]\" -n \"vite,tsc,nodemon\" -c \"bgGreen.bold,bgBlue.bold,bgMagenta.bold\" \"pnpm watch:contentScript\" \"pnpm watch:ts\" \"pnpm watch:static\"",
+    "watch:contentScript": "vite build --watch",
     "watch:ts": "tsc --watch",
     "copy:manifest": "copyfiles manifest.json dist/",
     "copy:html": "copyfiles -u -2 src/**/*.html dist/",
@@ -17,9 +18,18 @@
   "license": "ISC",
   "devDependencies": {
     "@types/chrome": "^0.0.270",
+    "@types/node": "^22.5.5",
+    "@types/react": "^18.3.8",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
     "concurrently": "^9.0.1",
     "copyfiles": "^2.4.1",
     "nodemon": "^3.1.4",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "vite": "^5.4.7"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   }
 }

@@ -1,4 +1,14 @@
-export function generateTOC() {
+import { useEffect } from "react";
+
+export function App() {
+  useEffect(() => {
+    generateTOC();
+  }, [])
+
+  return null
+}
+
+function generateTOC() {
   const directions = ['n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw'] as const;
 
   const tocContainer = Layout();
@@ -10,7 +20,9 @@ export function generateTOC() {
   tocContainer.appendChild(tocList);
   tocContainer.appendChild(tocDirections);
 
-  document.body.appendChild(tocContainer);
+  const tocElement = document.querySelector('#mokcha_root')!
+
+  tocElement.appendChild(tocContainer);
 
   // Make the TOC draggable and resizable
   const toc = {
@@ -196,13 +208,5 @@ export function generateTOC() {
     tocTitle.style.marginTop = '0';
     
     return tocTitle
-  }
-}
-
-export function removeTOC() {
-  const tocContainer = document.getElementById('extension-toc-container');
-
-  if (tocContainer) {
-    tocContainer.remove();
   }
 }
