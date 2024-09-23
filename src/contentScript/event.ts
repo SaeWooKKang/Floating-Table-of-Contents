@@ -1,13 +1,13 @@
-import { generateTOC, removeTOC } from "./application/index";
+import { application } from "./application/index";
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.status === "on") {
-    generateTOC();
+    application.on();
   }
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.status === "off") {
-    removeTOC();
+    application.off();
   }
 });
