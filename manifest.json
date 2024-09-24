@@ -20,6 +20,9 @@
       "js": [
         "contentScript/index.js"
       ],
+      "css": [
+        "contentScript/index.css"
+      ],
       "matches": [
         "https://*/*",
         "http://localhost/*"

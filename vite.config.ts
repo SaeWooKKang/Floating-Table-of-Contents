@@ -17,6 +17,17 @@ export default defineConfig({
             chunkInfo.facadeModuleId?.replace(/\.[^/.]+$/, ".js") ?? 'index.js'
           );
         },
+        assetFileNames: (assetInfo) => {
+          const isCss = assetInfo.name?.endsWith('.css');
+          const isContentScript = assetInfo.name?.startsWith('src/contentScript');
+
+          if (isCss && !isContentScript) {
+            return 'contentScript/index.css'
+          }
+
+          // default
+          return 'assets/[name]-[hash][extname]'
+        }
       },
     }
   }
