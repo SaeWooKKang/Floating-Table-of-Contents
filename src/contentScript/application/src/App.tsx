@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import './index.css'
+import React from "react";
 
 export function App() {
   useEffect(() => {
