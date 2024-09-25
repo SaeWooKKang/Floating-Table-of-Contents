@@ -8,16 +8,18 @@ import { Header } from "./Header";
 import { Toc } from "./Toc";
 
 const Container = () => {
-  const [documentHeight, setDocumentHeight] = useState(0);
-  const [documentWidth, setDocumentWidth] = useState(0);
-
+  const [constraints, setConstraints] = useState({left: 0, right: 0, top: 0, bottom: 0});
   const [showBigger, setShowBigger] = useState(true);
 
   const controls= useDragControls()
 
   useEffect(() => {
-    setDocumentHeight(document.documentElement.scrollHeight);
-    setDocumentWidth(document.documentElement.scrollWidth);
+    setConstraints(prev => ({
+      ...prev,
+      bottom: window.innerHeight - 200,
+      right: document.documentElement.scrollWidth - 200
+
+    }))
   }, [])
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -29,13 +31,10 @@ const Container = () => {
   }
 
   return (
-    <Layout
-      documentHeight={documentHeight}
-    >
+    <Layout>
       <MotionLayout 
         showBigger={showBigger} 
-        documentHeight={documentHeight} 
-        documentWidth={documentWidth} 
+        constraints={constraints}
         controls={controls}
       >
         <Header 

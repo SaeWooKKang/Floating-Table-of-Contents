@@ -1,30 +1,34 @@
-import { DragControls, motion, useDragControls } from "framer-motion";
-import React, { useRef } from "react";
+import { DragControls, motion, PanInfo } from "framer-motion";
+import React, { useState } from "react";
 
 interface Props {
-  documentHeight: number
-  documentWidth: number
   showBigger: boolean
   children: React.ReactNode
   controls: DragControls
+  constraints: {
+    left: number
+    right: number
+    top: number
+    bottom: number
+  }
 }
 
 export const MotionLayout = (props: Props) => {
-  const constraintsRef = useRef<HTMLDivElement>(null);
-  
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleDragEnd = (event: MouseEvent, info: PanInfo) => {
+    setPosition(info.point);
+  }
+
   return (
     <motion.div 
-      ref={constraintsRef}
       drag 
-      dragConstraints={{
-        bottom: props.documentHeight - 200 || 0,
-        left: 0,
-        right: props.documentWidth - 200 || 0,
-        top: 0
-      }}
+      dragConstraints={props.constraints}
       dragControls={props.controls}
       dragListener={false}
+      dragMomentum={false}
       style={{
+        position: 'fixed',
         pointerEvents: 'auto',
         width: props.showBigger ? 300 : 250, 
         height: props.showBigger ? 300 : 200,
@@ -34,6 +38,8 @@ export const MotionLayout = (props: Props) => {
         zIndex: 1,
         backgroundColor: 'white'
       }}
+      initial={position}
+      onDragEnd={handleDragEnd}
       layout
     >
       {props.children}

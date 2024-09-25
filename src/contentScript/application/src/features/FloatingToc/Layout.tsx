@@ -2,7 +2,6 @@ import React from "react";
 
 export const Layout = (props: {
   children: React.ReactNode
-  documentHeight: number
 }) => {
   return (
     <div 
@@ -11,7 +10,6 @@ export const Layout = (props: {
         top: 0,
         left: 0,
         width: '100%',
-        height: props.documentHeight,
         overflow: 'hidden',
         pointerEvents: 'none',
         zIndex: 1000
