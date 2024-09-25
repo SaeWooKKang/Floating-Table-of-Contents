@@ -26,7 +26,7 @@ export const MotionLayout = (props: Props) => {
       dragListener={false}
       style={{
         pointerEvents: 'auto',
-        width: props.showBigger ? 300 : 200, 
+        width: props.showBigger ? 300 : 250, 
         height: props.showBigger ? 300 : 200,
         borderRadius: '10px',
         boxShadow: 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px',

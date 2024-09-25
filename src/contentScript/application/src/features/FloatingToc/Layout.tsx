@@ -14,8 +14,8 @@ export const Layout = (props: {
         height: props.documentHeight,
         overflow: 'hidden',
         pointerEvents: 'none',
+        zIndex: 1000
       }}
-      className="bg-orange-300"
       >
     {props.children}
   </div>

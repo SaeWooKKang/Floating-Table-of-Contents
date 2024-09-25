@@ -40,10 +40,13 @@ const Container = () => {
       >
         <Header 
           onPointerDown={handlePointerDown} 
-          hideIcon={!showBigger}
+          showBigger={showBigger}
         />
 
-        <Toc onTap={handleTap}/>
+        <Toc 
+          onTap={handleTap} 
+          showBigger={showBigger}
+        />
       </MotionLayout>
     </Layout>
   );

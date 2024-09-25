@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 interface Props {
   onPointerDown: (e: React.PointerEvent<HTMLDivElement>) => void
-  hideIcon: boolean
+  showBigger: boolean
 }
 export const Header = (props: Props) => {
   const [isGrabbing, setIsGrabbing] = useState(false);
@@ -28,16 +28,19 @@ export const Header = (props: Props) => {
         alignItems: 'center',
         flexDirection: 'column',
         cursor: isGrabbing ? 'grabbing' : 'grab',
+        height: '55px',
       }}
     >
       <h1
+        id="toc-title"
         style={{
           padding: '15px 10px',
           position: 'relative',
+          fontSize: props.showBigger ? '16px': '13px',
         }}
       >
-        <span style={{position: 'absolute', left: -15, display: props.hideIcon ? 'none' : 'block'}}>☁️</span> 
-        <span>Floating Table of Contents</span>
+        <span style={{position: 'absolute', left: -15, display: props.showBigger ? 'block' : 'none'}}>☁️</span> 
+        <span style={{fontWeight: 'bold' }}>Floating Table of Contents</span>
       </h1>
 
       <div 
