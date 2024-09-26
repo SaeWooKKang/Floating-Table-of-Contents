@@ -22,7 +22,7 @@ export const Toc = (props: Props) => {
     const DOM_DELAY = 300;
     
     setTimeout(() => {
-    setHeadingInfo(getHeadingInfo())
+      setHeadingInfo(getHeadingInfo())
     }, DOM_DELAY)
   }, [])
 
@@ -30,18 +30,26 @@ export const Toc = (props: Props) => {
     <motion.div
       layout
       onClick={props.onTap}
-      style={{height: 'calc(100% - 55px)', width: '100%', padding: '20px 10px 10px', outline: 'none', overflow: 'auto'}}
+      style={{height: 'calc(100% - 55px)', width: '100%', padding: '20px 0 10px', outline: 'none', overflow: 'auto'}}
     >
       <SwitchCase 
         value={hasHeadingInfo ? 'fill' : 'empty'} 
         cases={{
           fill: (
-            <ul style={{fontSize: props.showBigger ? '16px': '13px',}}>
+            <ul style={{
+              fontSize: props.showBigger ? '16px': '13px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '5px',
+              }}>
             {headingInfo?.map((headingInfo) => {
               return (
                 <motion.li 
                   key={headingInfo.id} 
-                  style={{paddingLeft: headingInfo.level * 10}} 
+                  style={{
+                    paddingLeft: headingInfo.level * 10,
+                    paddingRight: 10,
+                  }} 
                  
                 >
                   <a 
