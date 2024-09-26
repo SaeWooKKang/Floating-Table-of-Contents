@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
+import { SwitchCase } from "../../components/SwitchCase";
 
 interface Props {
   onTap: () => void
@@ -15,6 +16,7 @@ type HeadingInfo = {
 export const Toc = (props: Props) => {
   const [headingInfo, setHeadingInfo] = useState<HeadingInfo[] | null>(null);
 
+  const hasHeadingInfo = headingInfo && headingInfo.length > 0;
 
   useEffect(() => {
     const main = document.querySelector('main')
@@ -40,6 +42,7 @@ export const Toc = (props: Props) => {
           level: Number(level)
         })
       })
+      .filter(headingInfo => headingInfo.text !== '')
 
     setHeadingInfo(info)
   }, [])
@@ -50,24 +53,36 @@ export const Toc = (props: Props) => {
       onClick={props.onTap}
       style={{height: 'calc(100% - 55px)', width: '100%', padding: '20px 10px 10px', outline: 'none', overflow: 'auto'}}
     >
-      <ul style={{fontSize: props.showBigger ? '16px': '13px',}}>
-        {headingInfo?.map((headingInfo) => {
-          return (
-            <motion.li 
-              key={headingInfo.id} 
-              style={{paddingLeft: headingInfo.level * 10}} 
-             
-            >
-              <a 
-                href={`#${headingInfo.id}`}
-                onClick={e => e.stopPropagation()}
-              >
-                {headingInfo.text}
-              </a>
-            </motion.li>
+      <SwitchCase 
+        value={hasHeadingInfo ? 'fill' : 'empty'} 
+        cases={{
+          fill: (
+            <ul style={{fontSize: props.showBigger ? '16px': '13px',}}>
+            {headingInfo?.map((headingInfo) => {
+              return (
+                <motion.li 
+                  key={headingInfo.id} 
+                  style={{paddingLeft: headingInfo.level * 10}} 
+                 
+                >
+                  <a 
+                    href={`#${headingInfo.id}`}
+                    onClick={e => e.stopPropagation()}
+                  >
+                    {headingInfo.text}
+                  </a>
+                </motion.li>
+              )
+            })}
+          </ul>
+          ),
+          empty: (
+            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: 'calc(100% - 40px)'}}>
+              empty..
+            </div>
           )
-        })}
-      </ul>
+        }}
+      />
   </motion.div>
   )
 }
