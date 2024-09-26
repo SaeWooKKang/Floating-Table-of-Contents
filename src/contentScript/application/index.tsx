@@ -1,26 +1,28 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import { createRoot, Root } from "react-dom/client";
 import { App } from "./src/App";
 
-const root = document.createElement('div')
-root.id = 'mokcha_root'
-root.style.display = 'none'
-
-document.body.appendChild(root)
-
-createRoot(root).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+let root: Root | null = null;
+const container = document.createElement('div');
+container.id = 'mokcha_root';
+document.body.appendChild(container);
 
 export const application = {
   on: () => {
-    root.style.display = 'block'
+    if (!root) {
+      root = createRoot(container);
+      root.render(
+        <StrictMode>
+          <App />
+        </StrictMode>
+      );
+    }
   },
-  off: () => {
-    root.style.display = 'none'
+  off: () => {    
+    if (root) {
+      root.unmount();
+      root = null;
+    }
   }
-}
-
+};

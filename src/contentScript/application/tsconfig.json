@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "module": "esnext",
+    "strict": true,
+    "moduleResolution": "bundler",
+    "target": "ES6"
+  },
+  "include": ["./src"],
+  "references": [
+    {
+      "path": "../../../tsconfig.json"
+    }
+  ]
+}

@@ -13,7 +13,6 @@
     "noImplicitOverride": true,
 
     /* Emit */
-    "declaration": false,                              /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
     "sourceMap": true,                                /* Create source map files for emitted JavaScript files. */
     // "inlineSourceMap": true,                          /* Include sourcemap files inside the emitted JavaScript. */
     "noEmit": false,                                   /* Disable emitting files from a compilation. */
@@ -27,7 +26,9 @@
     /* Type Checking */
     "strict": true,                                      /* Enable all strict type-checking options. */
     "noImplicitAny": true,                            /* Enable error reporting for expressions and declarations with an implied 'any' type. */
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
+
+    "composite": true
   },
   "include": [
     "src/**/*"
