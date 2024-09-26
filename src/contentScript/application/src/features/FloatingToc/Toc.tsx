@@ -19,32 +19,7 @@ export const Toc = (props: Props) => {
   const hasHeadingInfo = headingInfo && headingInfo.length > 0;
 
   useEffect(() => {
-    const main = document.querySelector('main')
-
-    const headings = main 
-      ? main.querySelectorAll('h1, h2, h3, h4') 
-      : document.querySelectorAll('h1, h2, h3, h4');
-
-    headings.forEach((heading, index) => {
-      if (heading.id !== 'toc-title') {
-        heading.id = `toc-heading-${index}`
-      }
-    })
-    
-    const info: HeadingInfo[] = [...headings]
-      .filter(heading => heading.id !== 'toc-title')
-      .map((heading, index) => {
-        const [_, level] = [...heading.tagName]
-
-        return ({
-          text: heading.textContent ?? '',
-          id: `toc-heading-${index}`,
-          level: Number(level)
-        })
-      })
-      .filter(headingInfo => headingInfo.text !== '')
-
-    setHeadingInfo(info)
+    setHeadingInfo(getHeadingInfo())
   }, [])
 
   return (
@@ -85,4 +60,33 @@ export const Toc = (props: Props) => {
       />
   </motion.div>
   )
+}
+
+function getHeadingInfo(): HeadingInfo[] {
+  const main = document.querySelector('main')
+
+  const headings = main 
+    ? main.querySelectorAll('h1, h2, h3, h4') 
+    : document.querySelectorAll('h1, h2, h3, h4');
+
+  headings.forEach((heading, index) => {
+    if (heading.id !== 'toc-title') {
+      heading.id = `toc-heading-${index}`
+    }
+  })
+  
+  const info: HeadingInfo[] = [...headings]
+    .filter(heading => heading.id !== 'toc-title')
+    .map((heading, index) => {
+      const [_, level] = [...heading.tagName]
+
+      return ({
+        text: heading.textContent ?? '',
+        id: `toc-heading-${index}`,
+        level: Number(level)
+      })
+    })
+    .filter(headingInfo => headingInfo.text !== '')
+
+    return info
 }
