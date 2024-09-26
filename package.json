@@ -1,7 +1,7 @@
 {
-  "name": "real-mokcha",
+  "name": "floating-table-of-contents",
   "version": "1.0.0",
-  "description": "Table of Contents",
+  "description": "Explore documents with ease and float your ToC anywhere!",
   "main": "index.js",
   "type": "module",
   "scripts": {
