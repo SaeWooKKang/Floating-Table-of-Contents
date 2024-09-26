@@ -17,11 +17,6 @@ interface Props {
 }
 
 export const MotionLayout = (props: Props) => {
-  const [position, setPosition] = useState({ x: 200, y: 200 });
-
-  const handleDragEnd = (event: MouseEvent, info: PanInfo) => {
-    setPosition(info.point);
-  }
 
   return (
     <motion.div 
@@ -29,7 +24,13 @@ export const MotionLayout = (props: Props) => {
       dragConstraints={props.constraints}
       dragControls={props.controls}
       dragListener={false}
-      dragMomentum={false}
+      
+      animate={{x:200, y: 200}}
+      layout
+      whileHover={{
+        scale: 1.05,
+      }}
+
       style={{
         position: 'fixed',
         pointerEvents: 'auto',
@@ -41,9 +42,6 @@ export const MotionLayout = (props: Props) => {
         zIndex: 1,
         backgroundColor: 'white'
       }}
-      initial={position}
-      onDragEnd={handleDragEnd}
-      layout
     >
       {props.children}
     </motion.div>
