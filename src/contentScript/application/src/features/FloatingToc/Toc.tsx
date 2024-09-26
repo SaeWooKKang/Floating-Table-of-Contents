@@ -16,7 +16,11 @@ export const Toc = (props: Props) => {
   const [headers, setHeaders] = useState<HeaderInfo[] | null>(null);
 
   useEffect(() => {
-    const headers = document.querySelectorAll('h1, h2, h3, h4');
+    const main = document.querySelector('main')
+
+    const headers = main 
+      ? main.querySelectorAll('h1, h2, h3, h4') 
+      : document.querySelectorAll('h1, h2, h3, h4');
 
     headers.forEach((header, index) => {
       if (header.id !== 'toc-title') {
