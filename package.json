@@ -12,7 +12,8 @@
     "copy:html": "copyfiles -u -2 src/**/*.html dist/",
     "copy:images": "copyfiles -u -2 src/**/*.png dist/",
     "copy:all": "pnpm copy:manifest && pnpm copy:html && pnpm copy:images",
-    "watch:static": "nodemon --watch ./ --ignore dist/ --ignore node_modules/ --ext html,css,json,png --exec \"pnpm copy:all\""
+    "watch:static": "nodemon --watch ./ --ignore dist/ --ignore node_modules/ --ext html,css,json,png --exec \"pnpm copy:all\"",
+    "build:prod": "pnpm copy:all && vite build && tsc --build --force"
   },
   "author": "",
   "license": "ISC",
