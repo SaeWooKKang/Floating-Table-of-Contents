@@ -19,11 +19,7 @@ export const Toc = (props: Props) => {
   const hasHeadingInfo = headingInfo && headingInfo.length > 0;
 
   useEffect(() => {
-    const DOM_DELAY = 300;
-    
-    setTimeout(() => {
-      setHeadingInfo(getHeadingInfo())
-    }, DOM_DELAY)
+    setHeadingInfo(getHeadingInfo())
   }, [])
 
   return (
