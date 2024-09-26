@@ -2,7 +2,6 @@ import { DragControls, motion, PanInfo } from "framer-motion";
 import React, { useState } from "react";
 
 interface Props {
-  showBigger: boolean
   children: React.ReactNode
   controls: DragControls
   constraints: {
@@ -11,10 +10,14 @@ interface Props {
     top: number
     bottom: number
   }
+  tocSize: {
+    width: number
+    height: number
+  }
 }
 
 export const MotionLayout = (props: Props) => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: 200, y: 200 });
 
   const handleDragEnd = (event: MouseEvent, info: PanInfo) => {
     setPosition(info.point);
@@ -30,8 +33,8 @@ export const MotionLayout = (props: Props) => {
       style={{
         position: 'fixed',
         pointerEvents: 'auto',
-        width: props.showBigger ? 300 : 250, 
-        height: props.showBigger ? 300 : 200,
+        width: props.tocSize.width, 
+        height: props.tocSize.height,
         borderRadius: '10px',
         boxShadow: 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px',
         overflow: 'hidden',
