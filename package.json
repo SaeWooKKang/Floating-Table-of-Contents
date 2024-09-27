@@ -16,7 +16,7 @@
     "build:prod": "pnpm copy:all && vite build && tsc --build --force"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/chrome": "^0.0.270",
     "@types/node": "^22.5.5",
