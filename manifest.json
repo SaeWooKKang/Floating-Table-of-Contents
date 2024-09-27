@@ -1,10 +1,9 @@
 {
-  "name": "Mokcha",
-  "description": "Floating Table of Contents",
+  "name": "Floating Table of Contents",
+  "description": "Explore documents with ease and float your ToC anywhere!",
   "version": "1.0",
   "manifest_version": 3,
   "permissions": [
-    "scripting", 
     "activeTab"
   ],
   "action": {
@@ -45,7 +44,7 @@
         "default": "Ctrl+B",
         "mac": "Command+B"
       },
-      "description": "Toggle Mokcha"
+      "description": "Floating Table of Contents"
     }
   }
 }
