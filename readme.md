@@ -14,4 +14,7 @@ Explore documents with ease and float your ToC anywhere!
 ![demo](docs/assets/demo.gif)
 
 ## Installation
-🚧
+- [chrome web store](https://chromewebstore.google.com/detail/floating-table-of-content/jpiabpdmmoenbdekappaidaoeaicjpmh)
+
+## Code
+- [Architecture](https://github.com/SaeWooKKang/Floating-Table-of-Contents/blob/main/docs/code/architecture.md)
