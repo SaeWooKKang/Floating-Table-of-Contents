@@ -1,5 +1,4 @@
-import { DragControls, motion, PanInfo } from 'framer-motion'
-import React, { useState } from 'react'
+import { type DragControls, motion } from 'framer-motion'
 
 interface Props {
 	children: React.ReactNode

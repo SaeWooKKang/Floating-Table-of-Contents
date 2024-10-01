@@ -1,5 +1,5 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import React, { useState } from 'react'
 
 interface Props {
 	onPointerDown: (e: React.PointerEvent<HTMLDivElement>) => void
