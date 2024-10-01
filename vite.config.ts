@@ -1,35 +1,32 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import path from 'path';
+import path from 'path'
 
 export default defineConfig({
-  plugins: [
-    react(),
-  ],
-  build:{
-    emptyOutDir: false,
-    rollupOptions: {
-      input: './src/contentScript/index.ts',
-      output: {
-        entryFileNames: (chunkInfo) => {
-          return path.relative(
-            'src',
-            chunkInfo.facadeModuleId?.replace(/\.[^/.]+$/, ".js") ?? 'index.js'
-          );
-        },
-        assetFileNames: (assetInfo) => {
-          const isCss = assetInfo.name?.endsWith('.css');
-          const isContentScript = assetInfo.name?.startsWith('src/contentScript');
+	plugins: [react()],
+	build: {
+		emptyOutDir: false,
+		rollupOptions: {
+			input: './src/contentScript/index.ts',
+			output: {
+				entryFileNames: (chunkInfo) => {
+					return path.relative(
+						'src',
+						chunkInfo.facadeModuleId?.replace(/\.[^/.]+$/, '.js') ?? 'index.js',
+					)
+				},
+				assetFileNames: (assetInfo) => {
+					const isCss = assetInfo.name?.endsWith('.css')
+					const isContentScript = assetInfo.name?.startsWith('src/contentScript')
 
-          if (isCss && !isContentScript) {
-            return 'contentScript/index.css'
-          }
+					if (isCss && !isContentScript) {
+						return 'contentScript/index.css'
+					}
 
-          // default
-          return 'assets/[name]-[hash][extname]'
-        }
-      },
-    }
-  }
+					// default
+					return 'assets/[name]-[hash][extname]'
+				},
+			},
+		},
+	},
 })
-
