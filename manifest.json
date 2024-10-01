@@ -3,9 +3,7 @@
   "description": "Explore documents with ease and float your ToC anywhere!",
   "version": "1.0",
   "manifest_version": 3,
-  "permissions": [
-    "activeTab"
-  ],
+  "permissions": ["activeTab"],
   "action": {
     "default_icon": {
       "16": "images/table-16.png",
@@ -16,16 +14,9 @@
   },
   "content_scripts": [
     {
-      "js": [
-        "contentScript/index.js"
-      ],
-      "css": [
-        "contentScript/index.css"
-      ],
-      "matches": [
-        "https://*/*",
-        "http://localhost/*"
-      ]
+      "js": ["contentScript/index.js"],
+      "css": ["contentScript/index.css"],
+      "matches": ["https://*/*", "http://localhost/*"]
     }
   ],
   "background": {
@@ -38,7 +29,7 @@
     "48": "images/table-48.png",
     "128": "images/table-128.png"
   },
-   "commands": {
+  "commands": {
     "_execute_action": {
       "suggested_key": {
         "default": "Ctrl+B",

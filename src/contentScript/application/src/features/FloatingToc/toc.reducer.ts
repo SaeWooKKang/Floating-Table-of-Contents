@@ -1,4 +1,4 @@
-type TocType = "bigger" | "smaller"
+type TocType = 'bigger' | 'smaller'
 
 type Toc = {
   type: TocType
@@ -17,17 +17,17 @@ type TocAction = {
 const TOC_SIZE = {
   bigger: {
     width: 300,
-    height: 300
+    height: 300,
   },
   smaller: {
     width: 250,
-    height: 200
-  }
+    height: 200,
+  },
 }
 
 export const TOC_INITIAL_STATE: Toc = {
   type: 'bigger',
-  size: TOC_SIZE.bigger
+  size: TOC_SIZE.bigger,
 }
 
 export const tocReducer = (state: Toc, action: TocAction) => {
@@ -35,11 +35,12 @@ export const tocReducer = (state: Toc, action: TocAction) => {
     case 'bigger':
       return {
         type: 'bigger' as const,
-        size: TOC_SIZE.bigger}
+        size: TOC_SIZE.bigger,
+      }
     case 'smaller':
       return {
         type: 'smaller' as const,
-        size: TOC_SIZE.smaller
+        size: TOC_SIZE.smaller,
       }
   }
 }

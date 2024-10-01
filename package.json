@@ -18,6 +18,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@biomejs/biome": "^1.9.2",
     "@types/chrome": "^0.0.270",
     "@types/node": "^22.5.5",
     "@types/react": "^18.3.8",

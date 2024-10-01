@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 interface SwitchCaseProps<T extends string | number> {
   value: T

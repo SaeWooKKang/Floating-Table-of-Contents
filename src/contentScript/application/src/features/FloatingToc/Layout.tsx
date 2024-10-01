@@ -1,10 +1,8 @@
-import React from "react";
-
 export const Layout = (props: {
   children: React.ReactNode
 }) => {
   return (
-    <div 
+    <div
       style={{
         position: 'absolute',
         top: 0,
@@ -12,10 +10,10 @@ export const Layout = (props: {
         width: '100%',
         overflow: 'hidden',
         pointerEvents: 'none',
-        zIndex: 1000
+        zIndex: 1000,
       }}
-      >
-    {props.children}
-  </div>
+    >
+      {props.children}
+    </div>
   )
 }

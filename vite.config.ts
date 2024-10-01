@@ -1,12 +1,10 @@
-import { defineConfig } from 'vite'
+import path from 'node:path'
 import react from '@vitejs/plugin-react'
-import path from 'path';
+import { defineConfig } from 'vite'
 
 export default defineConfig({
-  plugins: [
-    react(),
-  ],
-  build:{
+  plugins: [react()],
+  build: {
     emptyOutDir: false,
     rollupOptions: {
       input: './src/contentScript/index.ts',
@@ -14,12 +12,12 @@ export default defineConfig({
         entryFileNames: (chunkInfo) => {
           return path.relative(
             'src',
-            chunkInfo.facadeModuleId?.replace(/\.[^/.]+$/, ".js") ?? 'index.js'
-          );
+            chunkInfo.facadeModuleId?.replace(/\.[^/.]+$/, '.js') ?? 'index.js',
+          )
         },
         assetFileNames: (assetInfo) => {
-          const isCss = assetInfo.name?.endsWith('.css');
-          const isContentScript = assetInfo.name?.startsWith('src/contentScript');
+          const isCss = assetInfo.name?.endsWith('.css')
+          const isContentScript = assetInfo.name?.startsWith('src/contentScript')
 
           if (isCss && !isContentScript) {
             return 'contentScript/index.css'
@@ -27,9 +25,8 @@ export default defineConfig({
 
           // default
           return 'assets/[name]-[hash][extname]'
-        }
+        },
       },
-    }
-  }
+    },
+  },
 })
-
