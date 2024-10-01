@@ -1,6 +1,6 @@
 import React from 'react'
 import { StrictMode } from 'react'
-import { createRoot, type Root } from 'react-dom/client'
+import { type Root, createRoot } from 'react-dom/client'
 import { App } from './src/App'
 
 let root: Root | null = null

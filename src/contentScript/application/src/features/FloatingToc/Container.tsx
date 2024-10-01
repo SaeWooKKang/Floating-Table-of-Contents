@@ -3,9 +3,10 @@ import { useReducer } from 'react'
 import { useDragControls } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { MotionLayout } from './MotionLayout'
-import { Layout } from './Layout'
-import { Header } from './Header'
 import { Toc } from './Toc'
+
+import { Header } from './Header'
+import { Layout } from './Layout'
 
 import { TOC_INITIAL_STATE, tocReducer } from './toc.reducer'
 
