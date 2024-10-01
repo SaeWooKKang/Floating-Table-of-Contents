@@ -1,41 +1,41 @@
 {
-	"name": "floating-table-of-contents",
-	"version": "1.0.0",
-	"description": "Explore documents with ease and float your ToC anywhere!",
-	"main": "index.js",
-	"type": "module",
-	"scripts": {
-		"dev": "concurrently -p \"[{name}]\" -n \"vite,tsc,nodemon\" -c \"bgGreen.bold,bgBlue.bold,bgMagenta.bold\" \"pnpm watch:contentScript\" \"pnpm watch:ts\" \"pnpm watch:static\"",
-		"watch:contentScript": "vite build --watch",
-		"watch:ts": "tsc --watch",
-		"copy:manifest": "copyfiles manifest.json dist/",
-		"copy:html": "copyfiles -u -2 src/**/*.html dist/",
-		"copy:images": "copyfiles -u -2 src/**/*.png dist/",
-		"copy:all": "pnpm copy:manifest && pnpm copy:html && pnpm copy:images",
-		"watch:static": "nodemon --watch ./ --ignore dist/ --ignore node_modules/ --ext html,css,json,png --exec \"pnpm copy:all\"",
-		"build:prod": "pnpm copy:all && vite build && tsc --build --force"
-	},
-	"author": "",
-	"license": "MIT",
-	"devDependencies": {
-		"@biomejs/biome": "^1.9.2",
-		"@types/chrome": "^0.0.270",
-		"@types/node": "^22.5.5",
-		"@types/react": "^18.3.8",
-		"@types/react-dom": "^18.3.0",
-		"@vitejs/plugin-react": "^4.3.1",
-		"concurrently": "^9.0.1",
-		"copyfiles": "^2.4.1",
-		"nodemon": "^3.1.4",
-		"typescript": "^5.6.2",
-		"vite": "^5.4.7"
-	},
-	"dependencies": {
-		"autoprefixer": "^10.4.20",
-		"framer-motion": "^11.5.6",
-		"postcss": "^8.4.47",
-		"react": "^18.3.1",
-		"react-dom": "^18.3.1",
-		"tailwindcss": "^3.4.12"
-	}
+  "name": "floating-table-of-contents",
+  "version": "1.0.0",
+  "description": "Explore documents with ease and float your ToC anywhere!",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -p \"[{name}]\" -n \"vite,tsc,nodemon\" -c \"bgGreen.bold,bgBlue.bold,bgMagenta.bold\" \"pnpm watch:contentScript\" \"pnpm watch:ts\" \"pnpm watch:static\"",
+    "watch:contentScript": "vite build --watch",
+    "watch:ts": "tsc --watch",
+    "copy:manifest": "copyfiles manifest.json dist/",
+    "copy:html": "copyfiles -u -2 src/**/*.html dist/",
+    "copy:images": "copyfiles -u -2 src/**/*.png dist/",
+    "copy:all": "pnpm copy:manifest && pnpm copy:html && pnpm copy:images",
+    "watch:static": "nodemon --watch ./ --ignore dist/ --ignore node_modules/ --ext html,css,json,png --exec \"pnpm copy:all\"",
+    "build:prod": "pnpm copy:all && vite build && tsc --build --force"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.2",
+    "@types/chrome": "^0.0.270",
+    "@types/node": "^22.5.5",
+    "@types/react": "^18.3.8",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "concurrently": "^9.0.1",
+    "copyfiles": "^2.4.1",
+    "nodemon": "^3.1.4",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.7"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.20",
+    "framer-motion": "^11.5.6",
+    "postcss": "^8.4.47",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.12"
+  }
 }

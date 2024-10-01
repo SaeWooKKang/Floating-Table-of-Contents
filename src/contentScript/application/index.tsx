@@ -9,20 +9,20 @@ container.id = 'mokcha_root'
 document.body.appendChild(container)
 
 export const application = {
-	on: () => {
-		if (!root) {
-			root = createRoot(container)
-			root.render(
-				<StrictMode>
-					<App />
-				</StrictMode>,
-			)
-		}
-	},
-	off: () => {
-		if (root) {
-			root.unmount()
-			root = null
-		}
-	},
+  on: () => {
+    if (!root) {
+      root = createRoot(container)
+      root.render(
+        <StrictMode>
+          <App />
+        </StrictMode>,
+      )
+    }
+  },
+  off: () => {
+    if (root) {
+      root.unmount()
+      root = null
+    }
+  },
 }
