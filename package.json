@@ -1,6 +1,6 @@
 {
   "name": "floating-table-of-contents",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Explore documents with ease and float your ToC anywhere!",
   "main": "index.js",
   "type": "module",
