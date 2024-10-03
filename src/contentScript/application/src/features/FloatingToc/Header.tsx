@@ -22,38 +22,26 @@ export const Header = (props: Props) => {
       layout
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
-      className="!bg-white flex justify-center flex-col"
+      className="flex flex-col justify-center items-center h-[55px]"
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
         cursor: isGrabbing ? 'grabbing' : 'grab',
-        height: '55px',
       }}
     >
       <h1
         id="toc-title"
+        className="px-[10px] relative text-toc-black font-bold"
         style={{
-          padding: '15px 10px',
-          position: 'relative',
           fontSize: props.showBigger ? '16px' : '13px',
         }}
       >
         <span
-          style={{ position: 'absolute', left: -15, display: props.showBigger ? 'block' : 'none' }}
+          className="absolute left-[-15px]"
+          style={{ display: props.showBigger ? 'block' : 'none' }}
         >
           ☁️
         </span>
-        <span style={{ fontWeight: 'bold' }}>Floating Table of Contents</span>
+        <span className="font-bold">Floating Table of Contents</span>
       </h1>
-
-      <div
-        style={{
-          height: '0.5px',
-          width: 'calc(100% - 20px)',
-          backgroundColor: '#D5D5D5',
-        }}
-      />
     </motion.div>
   )
 }

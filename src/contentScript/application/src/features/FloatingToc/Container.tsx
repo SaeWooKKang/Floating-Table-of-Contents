@@ -8,6 +8,7 @@ import { Toc } from './Toc'
 import { Header } from './Header'
 import { Layout } from './Layout'
 
+import { Divider } from '../../components/Divider'
 import { TOC_INITIAL_STATE, tocReducer } from './toc.reducer'
 
 const Container = () => {
@@ -38,6 +39,8 @@ const Container = () => {
     <Layout>
       <MotionLayout constraints={constraints} controls={controls} tocSize={toc.size}>
         <Header onPointerDown={handlePointerDown} showBigger={showBigger} />
+
+        <Divider />
 
         <Toc onTap={handleTap} showBigger={showBigger} />
       </MotionLayout>

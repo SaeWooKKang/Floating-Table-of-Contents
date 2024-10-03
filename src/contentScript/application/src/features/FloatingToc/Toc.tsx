@@ -26,33 +26,25 @@ export const Toc = (props: Props) => {
     <motion.div
       layout
       onClick={props.onTap}
-      style={{
-        height: 'calc(100% - 55px)',
-        width: '100%',
-        padding: '20px 0 10px',
-        outline: 'none',
-        overflow: 'auto',
-      }}
+      className="h-[calc(100%-55px)] w-full overflow-auto outline-none pt-[15px] pb-[10px]"
     >
       <SwitchCase
         value={hasHeadingInfo ? 'fill' : 'empty'}
         cases={{
           fill: (
             <ul
+              className="flex flex-col gap-[5px] text-toc-black"
               style={{
                 fontSize: props.showBigger ? '16px' : '13px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '5px',
               }}
             >
               {headingInfo?.map((headingInfo) => {
                 return (
                   <motion.li
                     key={headingInfo.id}
+                    className="pr-[10px]"
                     style={{
                       paddingLeft: headingInfo.level * 10,
-                      paddingRight: 10,
                     }}
                   >
                     <a href={`#${headingInfo.id}`} onClick={(e) => e.stopPropagation()}>
@@ -64,16 +56,7 @@ export const Toc = (props: Props) => {
             </ul>
           ),
           empty: (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 'calc(100% - 40px)',
-              }}
-            >
-              empty..
-            </div>
+            <div className="flex justify-center items-center h-[calc(100%-40px)]">empty..</div>
           ),
         }}
       />

@@ -27,16 +27,10 @@ export const MotionLayout = (props: Props) => {
       whileHover={{
         scale: 1.05,
       }}
+      className="fixed bg-white overflow-hidden pointer-events-auto rounded-[10px] shadow-[0_1px_2px_0_rgba(60,64,67,0.3),0_2px_6px_2px_rgba(60,64,67,0.15)]"
       style={{
-        position: 'fixed',
-        pointerEvents: 'auto',
         width: props.tocSize.width,
         height: props.tocSize.height,
-        borderRadius: '10px',
-        boxShadow: 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px',
-        overflow: 'hidden',
-        zIndex: 1,
-        backgroundColor: 'white',
       }}
     >
       {props.children}
