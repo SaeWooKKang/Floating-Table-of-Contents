@@ -26,7 +26,7 @@ export const Toc = (props: Props) => {
     <motion.div
       layout
       onClick={props.onTap}
-      className="h-[calc(100%-55px)] w-full overflow-auto outline-none pt-[15px] pb-[10px]"
+      className='h-[calc(100%-55px)] w-full overflow-auto pt-[15px] pb-[10px] outline-none'
     >
       <SwitchCase
         value={hasHeadingInfo ? 'fill' : 'empty'}
@@ -56,7 +56,7 @@ export const Toc = (props: Props) => {
             </ul>
           ),
           empty: (
-            <div className="flex justify-center items-center h-[calc(100%-40px)]">empty..</div>
+            <div className='flex h-[calc(100%-40px)] items-center justify-center'>empty..</div>
           ),
         }}
       />

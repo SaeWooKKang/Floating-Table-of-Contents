@@ -9,7 +9,7 @@ export const Layout = forwardRef(
   ) => {
     return (
       <div
-        className="absolute top-0  right-0 bottom-0 left-0 w-full overflow-hidden pointer-events-none z-[1000]"
+        className="pointer-events-none absolute top-0 right-0 bottom-0 left-0 z-[1000] w-full overflow-hidden"
         ref={ref}
       >
         {props.children}
