@@ -1,14 +1,10 @@
 import { type DragControls, motion } from 'framer-motion'
+import type { RefObject } from 'react'
 
 interface Props {
   children: React.ReactNode
   controls: DragControls
-  constraints: {
-    left: number
-    right: number
-    top: number
-    bottom: number
-  }
+  constraints: RefObject<HTMLDivElement>
   tocSize: {
     width: number
     height: number

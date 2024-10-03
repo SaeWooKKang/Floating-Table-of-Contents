@@ -1,7 +1,6 @@
-import { useReducer } from 'react'
+import { useReducer, useRef } from 'react'
 
 import { useDragControls } from 'framer-motion'
-import { useEffect, useState } from 'react'
 import { MotionLayout } from './MotionLayout'
 import { Toc } from './Toc'
 
@@ -12,20 +11,11 @@ import { Divider } from '../../components/Divider'
 import { TOC_INITIAL_STATE, tocReducer } from './toc.reducer'
 
 const Container = () => {
-  const [constraints, setConstraints] = useState({ left: 0, right: 0, top: 0, bottom: 0 })
   const [toc, dispatch] = useReducer(tocReducer, TOC_INITIAL_STATE)
-
-  const showBigger = toc.type === 'bigger'
-
+  const constraintsRef = useRef<HTMLDivElement>(null)
   const controls = useDragControls()
 
-  useEffect(() => {
-    setConstraints((prev) => ({
-      ...prev,
-      bottom: window.innerHeight - toc.size.height,
-      right: document.documentElement.scrollWidth - toc.size.width,
-    }))
-  }, [toc])
+  const showBigger = toc.type === 'bigger'
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     controls.start(e)
@@ -36,8 +26,8 @@ const Container = () => {
   }
 
   return (
-    <Layout>
-      <MotionLayout constraints={constraints} controls={controls} tocSize={toc.size}>
+    <Layout ref={constraintsRef}>
+      <MotionLayout constraints={constraintsRef} controls={controls} tocSize={toc.size}>
         <Header onPointerDown={handlePointerDown} showBigger={showBigger} />
 
         <Divider />
