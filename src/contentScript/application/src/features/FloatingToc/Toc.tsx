@@ -33,7 +33,7 @@ export const Toc = (props: Props) => {
         cases={{
           fill: (
             <ul
-              className="flex flex-col gap-[5px]"
+              className="flex flex-col gap-[5px] text-toc-black"
               style={{
                 fontSize: props.showBigger ? '16px' : '13px',
               }}

@@ -29,7 +29,7 @@ export const Header = (props: Props) => {
     >
       <h1
         id="toc-title"
-        className="px-[10px] relative"
+        className="px-[10px] relative text-toc-black font-bold"
         style={{
           fontSize: props.showBigger ? '16px' : '13px',
         }}
