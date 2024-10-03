@@ -39,6 +39,8 @@ const Container = () => {
       <MotionLayout constraints={constraints} controls={controls} tocSize={toc.size}>
         <Header onPointerDown={handlePointerDown} showBigger={showBigger} />
 
+        <div className="h-[0.5px] w-[calc(100% - 20px)] bg-[#D5D5D5]" />
+
         <Toc onTap={handleTap} showBigger={showBigger} />
       </MotionLayout>
     </Layout>
