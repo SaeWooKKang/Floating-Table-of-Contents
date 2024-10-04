@@ -22,14 +22,14 @@ export const Header = (props: Props) => {
       layout
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
-      className='flex h-[55px] flex-col items-center justify-center'
+      className="flex h-[55px] flex-col items-center justify-center"
       style={{
         cursor: isGrabbing ? 'grabbing' : 'grab',
       }}
     >
       <h1
         id="toc-title"
-        className='relative px-[10px] font-bold text-toc-black'
+        className="relative px-[10px] font-bold text-toc-black"
         style={{
           fontSize: props.showBigger ? '16px' : '13px',
         }}
