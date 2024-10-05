@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { SwitchCase } from '../../components/SwitchCase'
-import { useTocHighlight } from './toc.hook'
-import { getAllHeadings, getHeadingInfo } from './toc.utils'
+import { useHeadings, useTocHighlight } from './toc.hook'
+import { getHeadingInfo } from './toc.utils'
 
 interface Props {
   onTap: () => void
@@ -10,16 +10,10 @@ interface Props {
 }
 
 export const Toc = (props: Props) => {
-  const [headings, setHeadings] = useState<Array<HTMLHeadingElement> | null>(null)
+  const { headings } = useHeadings()
   const { activeId } = useTocHighlight({ headings: headings ?? [] })
 
   const scrollAreaRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const headings = Array.from(getAllHeadings())
-
-    setHeadings(headings)
-  }, [])
 
   const headingInfo = headings && getHeadingInfo(headings)
   const hasHeadingInfo = headingInfo && headingInfo.length > 0
