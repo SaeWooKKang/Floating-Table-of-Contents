@@ -35,7 +35,7 @@ export const Toc = (props: Props) => {
                 return (
                   <motion.li
                     key={headingInfo.id}
-                    className="pr-[10px]"
+                    className="pr-[10px] hover:underline"
                     style={{
                       paddingLeft: headingInfo.level * 10,
                       color: headingInfo.id === activeId ? 'orange' : 'inherit',
