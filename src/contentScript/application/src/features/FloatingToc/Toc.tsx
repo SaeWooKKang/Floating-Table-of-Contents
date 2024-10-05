@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { SwitchCase } from '../../components/SwitchCase'
+import { useTocHighlight } from './toc.hook'
 import { getAllHeadings, getHeadingInfo } from './toc.utils'
 
 interface Props {
@@ -9,34 +10,15 @@ interface Props {
 }
 
 export const Toc = (props: Props) => {
-  const [activeId, setActiveId] = useState<string | null>(null)
   const [headings, setHeadings] = useState<Array<HTMLHeadingElement> | null>(null)
+  const { activeId } = useTocHighlight({ headings: headings ?? [] })
 
   const scrollAreaRef = useRef<HTMLDivElement>(null)
-  const observerRef = useRef<IntersectionObserver | null>(null)
 
   useEffect(() => {
     const headings = Array.from(getAllHeadings())
+
     setHeadings(headings)
-
-    const options = {
-      rootMargin: '-70px 0px -70% 0px',
-      threshold: 1.0,
-    }
-
-    observerRef.current = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          setActiveId(entry.target.id)
-        }
-      }
-    }, options)
-
-    for (const heading of headings) {
-      observerRef.current?.observe(heading)
-    }
-
-    return () => observerRef.current?.disconnect()
   }, [])
 
   const headingInfo = headings && getHeadingInfo(headings)
