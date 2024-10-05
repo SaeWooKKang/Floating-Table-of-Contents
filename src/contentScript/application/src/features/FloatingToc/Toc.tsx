@@ -36,7 +36,7 @@ export const Toc = (props: Props) => {
       observerRef.current?.observe(heading)
     }
 
-    return observerRef.current?.disconnect
+    return () => observerRef.current?.disconnect()
   }, [])
 
   const headingInfo = headings && getHeadingInfo(headings)
