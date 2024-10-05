@@ -12,13 +12,10 @@ export const getAllHeadings = () => {
 
 export const parseHeadingInfo = (headings: Array<Element>): HeadingInfo[] => {
   headings.forEach((heading, index) => {
-    if (heading.id !== 'toc-title') {
-      heading.id = `toc-heading-${index}`
-    }
+    heading.id = `toc-heading-${index}`
   })
 
   const info: HeadingInfo[] = [...headings]
-    .filter((heading) => heading.id !== 'toc-title')
     .map((heading, index) => {
       const [_, level] = [...heading.tagName]
 

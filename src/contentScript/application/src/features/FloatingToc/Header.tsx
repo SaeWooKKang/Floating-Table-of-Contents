@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import { TOC_TITLE_ID } from './toc.const'
 
 interface Props {
   onPointerDown: (e: React.PointerEvent<HTMLDivElement>) => void
@@ -28,7 +29,7 @@ export const Header = (props: Props) => {
       }}
     >
       <h1
-        id="toc-title"
+        id={TOC_TITLE_ID}
         className="relative px-[10px] font-bold text-toc-black"
         style={{
           fontSize: props.showBigger ? '16px' : '13px',

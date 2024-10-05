@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
+import { TOC_TITLE_ID } from './toc.const'
 import { getAllHeadings, parseHeadingInfo } from './toc.utils'
 
 export const useHeadings = () => {
   const [headings, setHeadings] = useState<Array<HTMLHeadingElement> | null>(null)
 
   useEffect(() => {
-    const headings = Array.from(getAllHeadings())
+    const headings = Array.from(getAllHeadings()).filter((heading) => heading.id !== TOC_TITLE_ID)
 
     setHeadings(headings)
   }, [])
@@ -25,7 +26,7 @@ export const useTocHighlight = ({
   const observerRef = useRef<IntersectionObserver | null>(null)
 
   const options = {
-    rootMargin: '-70px 0px -70% 0px',
+    rootMargin: '-70px 0px 0px 0px',
     threshold: 1.0,
   }
 
