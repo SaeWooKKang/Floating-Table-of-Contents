@@ -10,7 +10,7 @@ export const getAllHeadings = () => {
   return headings
 }
 
-export const getHeadingInfo = (headings: Array<Element>): HeadingInfo[] => {
+export const parseHeadingInfo = (headings: Array<Element>): HeadingInfo[] => {
   headings.forEach((heading, index) => {
     if (heading.id !== 'toc-title') {
       heading.id = `toc-heading-${index}`

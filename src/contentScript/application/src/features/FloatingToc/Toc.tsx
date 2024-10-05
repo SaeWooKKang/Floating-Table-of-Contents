@@ -2,7 +2,6 @@ import { motion } from 'framer-motion'
 import { useRef } from 'react'
 import { SwitchCase } from '../../components/SwitchCase'
 import { useHeadings, useTocHighlight } from './toc.hook'
-import { getHeadingInfo } from './toc.utils'
 
 interface Props {
   onTap: () => void
@@ -10,13 +9,10 @@ interface Props {
 }
 
 export const Toc = (props: Props) => {
-  const { headings } = useHeadings()
+  const { headings, hasParsedHeading, parsedHeadings } = useHeadings()
   const { activeId } = useTocHighlight({ headings: headings ?? [] })
 
   const scrollAreaRef = useRef<HTMLDivElement>(null)
-
-  const headingInfo = headings && getHeadingInfo(headings)
-  const hasHeadingInfo = headingInfo && headingInfo.length > 0
 
   return (
     <motion.nav
@@ -26,7 +22,7 @@ export const Toc = (props: Props) => {
       ref={scrollAreaRef}
     >
       <SwitchCase
-        value={hasHeadingInfo ? 'fill' : 'empty'}
+        value={hasParsedHeading ? 'fill' : 'empty'}
         cases={{
           fill: (
             <ul
@@ -35,7 +31,7 @@ export const Toc = (props: Props) => {
                 fontSize: props.showBigger ? '16px' : '13px',
               }}
             >
-              {headingInfo?.map((headingInfo) => {
+              {parsedHeadings?.map((headingInfo) => {
                 return (
                   <motion.li
                     key={headingInfo.id}

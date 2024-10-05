@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { getAllHeadings } from './toc.utils'
+import { getAllHeadings, parseHeadingInfo } from './toc.utils'
 
 export const useHeadings = () => {
   const [headings, setHeadings] = useState<Array<HTMLHeadingElement> | null>(null)
@@ -10,7 +10,10 @@ export const useHeadings = () => {
     setHeadings(headings)
   }, [])
 
-  return { headings }
+  const parsedHeadings = headings && parseHeadingInfo(headings)
+  const hasParsedHeading = parsedHeadings && parsedHeadings.length > 0
+
+  return { headings, parsedHeadings, hasParsedHeading }
 }
 
 export const useTocHighlight = ({
