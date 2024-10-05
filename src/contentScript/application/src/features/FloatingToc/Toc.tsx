@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useRef } from 'react'
+import { twMerge } from 'tailwind-merge'
 import { SwitchCase } from '../../components/SwitchCase'
 import { useHeadings, useTocHighlight } from './toc.hook'
 
@@ -35,10 +36,12 @@ export const Toc = (props: Props) => {
                 return (
                   <motion.li
                     key={headingInfo.id}
-                    className="pr-[10px] hover:underline"
+                    className={twMerge(
+                      'pr-[10px] hover:underline',
+                      activeId === headingInfo.id && 'text-toc-blue',
+                    )}
                     style={{
                       paddingLeft: headingInfo.level * 10,
-                      color: headingInfo.id === activeId ? 'orange' : 'inherit',
                     }}
                   >
                     <a href={`#${headingInfo.id}`} onClick={(e) => e.stopPropagation()}>
