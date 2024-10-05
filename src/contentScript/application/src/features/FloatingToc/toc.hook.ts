@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { throttle } from '../../utils/throttle'
 import { TOC_TITLE_ID } from './toc.const'
 import { getAllHeadings, parseHeadingInfo } from './toc.utils'
 
@@ -7,7 +8,6 @@ export const useHeadings = () => {
 
   useEffect(() => {
     const headings = Array.from(getAllHeadings()).filter((heading) => heading.id !== TOC_TITLE_ID)
-
     setHeadings(headings)
   }, [])
 
@@ -26,27 +26,38 @@ export const useTocHighlight = ({
   const observerRef = useRef<IntersectionObserver | null>(null)
 
   const options = {
-    rootMargin: '-70px 0px 0px 0px',
-    threshold: 1.0,
+    rootMargin: '-80px 0px -60% 0px',
+    threshold: [0, 1],
   }
 
-  useEffect(() => {
-    observerRef.current = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          setActiveId(entry.target.id)
-        }
+  const changeActiveId = useCallback(
+    throttle((id: string) => {
+      setActiveId(id)
+    }, 100),
+    [],
+  )
+
+  const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        setActiveId(entry.target.id)
+        break
       }
-    }, options)
+    }
+  }, [])
+
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(handleIntersection, options)
 
     for (const heading of headings) {
       observerRef.current?.observe(heading)
     }
 
     return () => observerRef.current?.disconnect()
-  }, [headings])
+  }, [headings, handleIntersection])
 
   return {
     activeId,
+    changeActiveId,
   }
 }

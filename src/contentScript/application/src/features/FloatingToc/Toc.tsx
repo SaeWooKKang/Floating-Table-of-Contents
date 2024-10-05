@@ -11,7 +11,7 @@ interface Props {
 
 export const Toc = (props: Props) => {
   const { headings, hasParsedHeading, parsedHeadings } = useHeadings()
-  const { activeId } = useTocHighlight({ headings: headings ?? [] })
+  const { activeId, changeActiveId } = useTocHighlight({ headings: headings ?? [] })
 
   const scrollAreaRef = useRef<HTMLDivElement>(null)
 
@@ -37,14 +37,21 @@ export const Toc = (props: Props) => {
                   <motion.li
                     key={headingInfo.id}
                     className={twMerge(
-                      'pr-[10px] hover:underline',
+                      'w-fit pr-[10px] hover:underline',
                       activeId === headingInfo.id && 'text-toc-blue',
                     )}
                     style={{
                       paddingLeft: headingInfo.level * 10,
                     }}
                   >
-                    <a href={`#${headingInfo.id}`} onClick={(e) => e.stopPropagation()}>
+                    <a
+                      href={`#${headingInfo.id}`}
+                      onClick={(e) => {
+                        e.stopPropagation()
+
+                        changeActiveId(headingInfo.id)
+                      }}
+                    >
                       {headingInfo.text}
                     </a>
                   </motion.li>
