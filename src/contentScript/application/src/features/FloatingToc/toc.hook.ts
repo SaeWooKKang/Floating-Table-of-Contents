@@ -49,27 +49,30 @@ export const useTocHighlight = ({
     prevScrollY.current = document.documentElement.scrollTop ?? 0
 
     for (const entry of entries) {
-      if (entry.isIntersecting) {
-        if (!headingEntries.current.find((h) => h.target.id === entry.target.id)) {
-          headingEntries.current = [...headingEntries.current, entry]
-          setActiveId(entry.target.id)
+      const hasEntry = headingEntries.current.find((h) => h.target.id === entry.target.id)
 
-          break
-        }
+      if (entry.isIntersecting && !hasEntry) {
+        headingEntries.current = [...headingEntries.current, entry]
+        setActiveId(entry.target.id)
+
+        break
       }
 
       const foundEntryIndex = headingEntries.current.findIndex(
         (h) => h.target.id === entry.target.id,
       )
 
-      if (
+      const isPreviousHeadingContentsVisible =
         !entry.isIntersecting &&
         foundEntryIndex !== -1 &&
         foundEntryIndex === headingEntries.current.length - 1 &&
         isScrollingUp
-      ) {
+
+      if (isPreviousHeadingContentsVisible) {
         headingEntries.current = headingEntries.current.slice(0, -1)
-        setActiveId(headingEntries.current[headingEntries.current.length - 1]?.target.id)
+        const lastEntry = headingEntries.current[headingEntries.current.length - 1]
+
+        setActiveId(lastEntry?.target.id)
 
         break
       }
