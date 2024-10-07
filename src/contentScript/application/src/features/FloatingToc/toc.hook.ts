@@ -23,10 +23,11 @@ export const useTocHighlight = ({
   headings: Array<HTMLHeadingElement>
 }) => {
   const [activeId, setActiveId] = useState<string | null>(null)
-  const observerRef = useRef<IntersectionObserver | null>(null)
-  const prevScrollY = useRef(0)
 
-  const headingEntries = useRef<Array<IntersectionObserverEntry>>([])
+  const observerRef = useRef<IntersectionObserver | null>(null)
+  const prevScrollYRef = useRef(0)
+  const allHeadingIdsRef = useRef<Array<string>>([])
+  const currentHeadingIdsRef = useRef<Array<string>>([])
 
   const options = {
     rootMargin: '-80px 0px -60% 0px',
@@ -40,43 +41,49 @@ export const useTocHighlight = ({
     [],
   )
 
-  useEffect(() => {
-    prevScrollY.current = document.documentElement.scrollTop ?? 0
-  }, [])
-
   const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {
-    const isScrollingUp = (document.documentElement.scrollTop ?? 0) < (prevScrollY?.current ?? 0)
-    prevScrollY.current = document.documentElement.scrollTop ?? 0
+    if (allHeadingIdsRef.current.length === 0) {
+      allHeadingIdsRef.current = entries.map((entry) => entry.target.id)
+    }
+
+    const isScrollingUp = (document.documentElement.scrollTop ?? 0) < (prevScrollYRef?.current ?? 0)
+    const isScrollingDown = !isScrollingUp
+    prevScrollYRef.current = document.documentElement.scrollTop ?? 0
 
     for (const entry of entries) {
-      const hasEntry = headingEntries.current.find((h) => h.target.id === entry.target.id)
+      if (isScrollingDown && entry.isIntersecting) {
+        const foundEntryIndex = allHeadingIdsRef.current.findIndex((id) => id === entry.target.id)
 
-      if (entry.isIntersecting && !hasEntry) {
-        headingEntries.current = [...headingEntries.current, entry]
+        currentHeadingIdsRef.current = allHeadingIdsRef.current.slice(0, foundEntryIndex + 1)
+
         setActiveId(entry.target.id)
 
-        break
+        return
       }
 
-      const foundEntryIndex = headingEntries.current.findIndex(
-        (h) => h.target.id === entry.target.id,
-      )
+      if (isScrollingUp && !entry.isIntersecting) {
+        const foundIdIndex = currentHeadingIdsRef.current.findIndex((id) => id === entry.target.id)
+        const isLast = foundIdIndex === currentHeadingIdsRef.current.length - 1
 
-      const isPreviousHeadingContentsVisible =
-        !entry.isIntersecting &&
-        foundEntryIndex !== -1 &&
-        foundEntryIndex === headingEntries.current.length - 1 &&
-        isScrollingUp
+        if (isLast) {
+          currentHeadingIdsRef.current = allHeadingIdsRef.current.slice(0, foundIdIndex)
+          setActiveId(currentHeadingIdsRef.current[currentHeadingIdsRef.current.length - 1])
+        }
 
-      if (isPreviousHeadingContentsVisible) {
-        headingEntries.current = headingEntries.current.slice(0, -1)
-        const lastEntry = headingEntries.current[headingEntries.current.length - 1]
+        return
+      }
 
-        setActiveId(lastEntry?.target.id)
+      if (entry.isIntersecting && isScrollingUp) {
+        const foundIdIndex = allHeadingIdsRef.current.findIndex((id) => id === entry.target.id)
 
-        break
+        currentHeadingIdsRef.current = allHeadingIdsRef.current.slice(0, foundIdIndex + 1)
+        setActiveId(entry.target.id)
       }
     }
+  }, [])
+
+  useEffect(() => {
+    prevScrollYRef.current = document.documentElement.scrollTop ?? 0
   }, [])
 
   useEffect(() => {
