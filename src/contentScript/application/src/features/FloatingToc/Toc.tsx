@@ -1,35 +1,29 @@
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useRef } from 'react'
+import { twMerge } from 'tailwind-merge'
 import { SwitchCase } from '../../components/SwitchCase'
+import { useHeadings, useTocHighlight } from './toc.hook'
 
 interface Props {
   onTap: () => void
   showBigger: boolean
 }
 
-type HeadingInfo = {
-  text: string
-  id: string
-  level: number
-}
-
 export const Toc = (props: Props) => {
-  const [headingInfo, setHeadingInfo] = useState<HeadingInfo[] | null>(null)
+  const { headings, hasParsedHeading, parsedHeadings } = useHeadings()
+  const { activeId, changeActiveId } = useTocHighlight({ headings: headings ?? [] })
 
-  const hasHeadingInfo = headingInfo && headingInfo.length > 0
-
-  useEffect(() => {
-    setHeadingInfo(getHeadingInfo())
-  }, [])
+  const scrollAreaRef = useRef<HTMLDivElement>(null)
 
   return (
-    <motion.div
+    <motion.nav
       layout
       onClick={props.onTap}
-      className='h-[calc(100%-55px)] w-full overflow-auto pt-[15px] pb-[10px] outline-none'
+      className="h-[calc(100%-55px)] w-full overflow-auto pt-[15px] pb-[10px] outline-none"
+      ref={scrollAreaRef}
     >
       <SwitchCase
-        value={hasHeadingInfo ? 'fill' : 'empty'}
+        value={hasParsedHeading ? 'fill' : 'empty'}
         cases={{
           fill: (
             <ul
@@ -38,16 +32,26 @@ export const Toc = (props: Props) => {
                 fontSize: props.showBigger ? '16px' : '13px',
               }}
             >
-              {headingInfo?.map((headingInfo) => {
+              {parsedHeadings?.map((headingInfo) => {
                 return (
                   <motion.li
                     key={headingInfo.id}
-                    className="pr-[10px]"
+                    className={twMerge(
+                      'w-fit pr-[10px] hover:underline',
+                      activeId === headingInfo.id && 'text-toc-blue',
+                    )}
                     style={{
                       paddingLeft: headingInfo.level * 10,
                     }}
                   >
-                    <a href={`#${headingInfo.id}`} onClick={(e) => e.stopPropagation()}>
+                    <a
+                      href={`#${headingInfo.id}`}
+                      onClick={(e) => {
+                        e.stopPropagation()
+
+                        changeActiveId(headingInfo.id)
+                      }}
+                    >
                       {headingInfo.text}
                     </a>
                   </motion.li>
@@ -56,39 +60,10 @@ export const Toc = (props: Props) => {
             </ul>
           ),
           empty: (
-            <div className='flex h-[calc(100%-40px)] items-center justify-center'>empty..</div>
+            <div className="flex h-[calc(100%-40px)] items-center justify-center">empty..</div>
           ),
         }}
       />
-    </motion.div>
+    </motion.nav>
   )
-}
-
-function getHeadingInfo(): HeadingInfo[] {
-  const main = document.querySelector('main')
-
-  const headings = main
-    ? main.querySelectorAll('h1, h2, h3, h4')
-    : document.querySelectorAll('h1, h2, h3, h4')
-
-  headings.forEach((heading, index) => {
-    if (heading.id !== 'toc-title') {
-      heading.id = `toc-heading-${index}`
-    }
-  })
-
-  const info: HeadingInfo[] = [...headings]
-    .filter((heading) => heading.id !== 'toc-title')
-    .map((heading, index) => {
-      const [_, level] = [...heading.tagName]
-
-      return {
-        text: heading.textContent ?? '',
-        id: `toc-heading-${index}`,
-        level: Number(level),
-      }
-    })
-    .filter((headingInfo) => headingInfo.text !== '')
-
-  return info
 }

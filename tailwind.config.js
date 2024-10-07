@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         'toc-black': '#334155',
+        'toc-blue': '#0ea5e9',
       },
     },
   },
