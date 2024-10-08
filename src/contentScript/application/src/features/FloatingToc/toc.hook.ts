@@ -28,6 +28,7 @@ export const useTocHighlight = ({
   const prevScrollYRef = useRef(0)
   const allHeadingIdsRef = useRef<Array<string>>([])
   const currentHeadingIdsRef = useRef<Array<string>>([])
+  const isClickedRef = useRef(false)
 
   const options = {
     rootMargin: '-80px 0px -60% 0px',
@@ -37,6 +38,12 @@ export const useTocHighlight = ({
   const changeActiveId = useCallback(
     throttle((id: string) => {
       setActiveId(id)
+
+      isClickedRef.current = true
+
+      setTimeout(() => {
+        isClickedRef.current = false
+      }, 100)
     }, 100),
     [],
   )
@@ -44,6 +51,10 @@ export const useTocHighlight = ({
   const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {
     if (allHeadingIdsRef.current.length === 0) {
       allHeadingIdsRef.current = entries.map((entry) => entry.target.id)
+    }
+
+    if (isClickedRef.current) {
+      return
     }
 
     const isScrollingUp = (document.documentElement.scrollTop ?? 0) < (prevScrollYRef?.current ?? 0)
