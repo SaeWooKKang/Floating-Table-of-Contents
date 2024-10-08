@@ -3,7 +3,7 @@
   "description": "Explore documents with ease and float your ToC anywhere!",
   "version": "1.0.1",
   "manifest_version": 3,
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "contextMenus"],
   "action": {
     "default_icon": {
       "16": "images/table-16.png",
