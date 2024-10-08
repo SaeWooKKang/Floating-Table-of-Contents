@@ -6,8 +6,10 @@ Explore documents with ease and float your ToC anywhere!
 - ☁️ Float ToC anywhere
 - 📐 Resize with a tab
 - 🛫 Click titles to jump
-- 🔮 Toggle ToC with keyboard shortcut
-  - `command + B`
+
+## How to use
+- keyboard shortcut with `command + B`
+- context menu with right-click and select "Toggle Floating ToC"
 
 ## Demo
 
