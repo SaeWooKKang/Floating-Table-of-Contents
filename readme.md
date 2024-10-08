@@ -6,6 +6,7 @@ Explore documents with ease and float your ToC anywhere!
 - ☁️ Float ToC anywhere
 - 📐 Resize with a tab
 - 🛫 Click titles to jump
+- 🔦 Highlight current section
 
 ## How to use
 - keyboard shortcut with `command + B`
