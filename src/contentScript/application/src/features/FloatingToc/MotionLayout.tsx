@@ -1,4 +1,5 @@
 import { type DragControls, motion } from 'framer-motion'
+import type { MouseEvent } from 'react'
 
 interface Props {
   children: React.ReactNode
@@ -16,12 +17,17 @@ interface Props {
 }
 
 export const MotionLayout = (props: Props) => {
+  const handleDragStart = (event: MouseEvent<HTMLDivElement>) => {
+    event.preventDefault()
+  }
+
   return (
     <motion.div
       drag
       dragConstraints={props.constraints}
       dragControls={props.controls}
       dragListener={false}
+      onMouseDown={handleDragStart}
       animate={{ x: 200, y: 200 }}
       layout
       whileHover={{
