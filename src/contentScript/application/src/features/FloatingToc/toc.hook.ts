@@ -48,50 +48,79 @@ export const useTocHighlight = ({
     [],
   )
 
-  const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {
-    if (allHeadingIdsRef.current.length === 0) {
-      allHeadingIdsRef.current = entries.map((entry) => entry.target.id)
-    }
+  const shouldSkipScrollProcessing = useCallback(
+    (foundEntryIndex: number, isScrollingDown: boolean) => {
+      const [, , currentId] = allHeadingIdsRef.current[foundEntryIndex].split('-')
+      const [, , lastId] =
+        currentHeadingIdsRef.current[currentHeadingIdsRef.current.length - 1]?.split('-') ?? []
 
-    if (isClickedRef.current) {
-      return
-    }
+      if (isScrollingDown) {
+        return Number(lastId) > Number(currentId)
+      }
 
-    const isScrollingUp = (document.documentElement.scrollTop ?? 0) < (prevScrollYRef?.current ?? 0)
-    const isScrollingDown = !isScrollingUp
-    prevScrollYRef.current = document.documentElement.scrollTop ?? 0
+      return Number(lastId) < Number(currentId)
+    },
+    [],
+  )
 
-    for (const entry of entries) {
-      if (isScrollingDown && entry.isIntersecting) {
-        const foundEntryIndex = allHeadingIdsRef.current.findIndex((id) => id === entry.target.id)
+  const handleIntersection = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      if (allHeadingIdsRef.current.length === 0) {
+        allHeadingIdsRef.current = entries.map((entry) => entry.target.id)
+      }
 
-        currentHeadingIdsRef.current = allHeadingIdsRef.current.slice(0, foundEntryIndex + 1)
-
-        setActiveId(entry.target.id)
-
+      if (isClickedRef.current) {
         return
       }
 
-      if (isScrollingUp && !entry.isIntersecting) {
-        const foundIdIndex = currentHeadingIdsRef.current.findIndex((id) => id === entry.target.id)
-        const isLast = foundIdIndex === currentHeadingIdsRef.current.length - 1
+      const isScrollingUp =
+        (document.documentElement.scrollTop ?? 0) < (prevScrollYRef?.current ?? 0)
+      const isScrollingDown = !isScrollingUp
+      prevScrollYRef.current = document.documentElement.scrollTop ?? 0
 
-        if (isLast) {
-          currentHeadingIdsRef.current = allHeadingIdsRef.current.slice(0, foundIdIndex)
-          setActiveId(currentHeadingIdsRef.current[currentHeadingIdsRef.current.length - 1])
+      for (const entry of entries) {
+        if (isScrollingDown && entry.isIntersecting) {
+          const foundEntryIndex = allHeadingIdsRef.current.findIndex((id) => id === entry.target.id)
+
+          if (shouldSkipScrollProcessing(foundEntryIndex, isScrollingDown)) {
+            return
+          }
+
+          currentHeadingIdsRef.current = allHeadingIdsRef.current.slice(0, foundEntryIndex + 1)
+
+          setActiveId(entry.target.id)
+
+          return
         }
 
-        return
-      }
+        if (isScrollingUp && !entry.isIntersecting) {
+          const foundIdIndex = currentHeadingIdsRef.current.findIndex(
+            (id) => id === entry.target.id,
+          )
+          const isLast = foundIdIndex === currentHeadingIdsRef.current.length - 1
 
-      if (entry.isIntersecting && isScrollingUp) {
-        const foundIdIndex = allHeadingIdsRef.current.findIndex((id) => id === entry.target.id)
+          if (isLast) {
+            currentHeadingIdsRef.current = allHeadingIdsRef.current.slice(0, foundIdIndex)
+            setActiveId(currentHeadingIdsRef.current[currentHeadingIdsRef.current.length - 1])
+          }
 
-        currentHeadingIdsRef.current = allHeadingIdsRef.current.slice(0, foundIdIndex + 1)
-        setActiveId(entry.target.id)
+          return
+        }
+
+        if (entry.isIntersecting && isScrollingUp) {
+          const foundIdIndex = allHeadingIdsRef.current.findIndex((id) => id === entry.target.id)
+
+          if (shouldSkipScrollProcessing(foundIdIndex, isScrollingDown)) {
+            return
+          }
+
+          currentHeadingIdsRef.current = allHeadingIdsRef.current.slice(0, foundIdIndex + 1)
+          setActiveId(entry.target.id)
+        }
       }
-    }
-  }, [])
+    },
+    [shouldSkipScrollProcessing],
+  )
 
   useEffect(() => {
     prevScrollYRef.current = document.documentElement.scrollTop ?? 0
