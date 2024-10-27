@@ -1,5 +1,5 @@
 import { type DragControls, motion } from 'framer-motion'
-import type { MouseEvent } from 'react'
+import { type MouseEvent, useEffect, useRef } from 'react'
 
 interface Props {
   children: React.ReactNode
@@ -14,21 +14,42 @@ interface Props {
     width: number
     height: number
   }
+  initialPosition: {
+    x: number
+    y: number
+  }
+  onDragEnd: (x: number, y: number) => void
 }
 
 export const MotionLayout = (props: Props) => {
+  const containerRef = useRef<HTMLDivElement>(null)
   const handleDragStart = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
   }
 
+  console.log('MotionLayout:', props.initialPosition)
+
   return (
     <motion.div
+      ref={containerRef}
       drag
       dragConstraints={props.constraints}
       dragControls={props.controls}
       dragListener={false}
       onMouseDown={handleDragStart}
-      animate={{ x: 200, y: 200 }}
+      animate={props.initialPosition.position}
+      onDragEnd={(_, info) => {
+        if (containerRef.current) {
+          const transform = window.getComputedStyle(containerRef.current).transform
+          const matrix = new DOMMatrix(transform)
+          const translateX = matrix.m41 // pixels 단위로 반환
+          const translateY = matrix.m42
+
+          console.dir(props.onDragEnd)
+
+          props.onDragEnd(translateX, translateY)
+        }
+      }}
       layout
       whileHover={{
         scale: 1.05,
