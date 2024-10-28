@@ -23,8 +23,22 @@ interface Props {
 
 export const MotionLayout = (props: Props) => {
   const containerRef = useRef<HTMLDivElement>(null)
+
   const handleDragStart = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
+  }
+
+  const handleDragEnd = () => {
+    if (!containerRef.current) {
+      return
+    }
+
+    const transform = window.getComputedStyle(containerRef.current).transform
+    const matrix = new DOMMatrix(transform)
+    const translateX = matrix.m41 // pixels 단위로 반환
+    const translateY = matrix.m42
+
+    props.onDragEnd(translateX, translateY)
   }
 
   return (
@@ -36,18 +50,7 @@ export const MotionLayout = (props: Props) => {
       dragListener={false}
       onMouseDown={handleDragStart}
       initial={props.initialPosition}
-      onDragEnd={(_, info) => {
-        if (containerRef.current) {
-          const transform = window.getComputedStyle(containerRef.current).transform
-          const matrix = new DOMMatrix(transform)
-          const translateX = matrix.m41 // pixels 단위로 반환
-          const translateY = matrix.m42
-
-          console.dir(props.onDragEnd)
-
-          props.onDragEnd(translateX, translateY)
-        }
-      }}
+      onDragEnd={handleDragEnd}
       layout
       whileHover={{
         scale: 1.05,
