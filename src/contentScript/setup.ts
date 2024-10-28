@@ -3,13 +3,15 @@ const INITIAL_POSITION = {
   y: 300,
 }
 
+const TOC_KEY = 'floating-toc'
+
 const storage = {
   getToc: () => {
-    return chrome.storage.local.get(['toc'])
+    return chrome.storage.local.get([TOC_KEY])
   },
   setToc: (info: { position: { x: number; y: number } }) => {
     chrome.storage.local.set({
-      toc: {
+      [TOC_KEY]: {
         position: info.position,
       },
     })
@@ -33,7 +35,7 @@ export const contentsController = {
     const result = await storage.getToc()
 
     return {
-      position: result.toc.position ?? INITIAL_POSITION,
+      position: result[TOC_KEY]?.position ?? INITIAL_POSITION,
       action: {
         changePosition: contentsController.changePosition,
       },
