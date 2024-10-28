@@ -18,7 +18,9 @@ const storage = {
 
 export interface Setting {
   position: { x: number; y: number }
-  changePosition: (x: number, y: number) => void
+  action: {
+    changePosition: (x: number, y: number) => void
+  }
 }
 
 export const contentsController = {
@@ -31,8 +33,10 @@ export const contentsController = {
     const result = await storage.getToc()
 
     return {
-      changePosition: contentsController.changePosition,
       position: result.toc.position ?? INITIAL_POSITION,
+      action: {
+        changePosition: contentsController.changePosition,
+      },
     }
   },
 }
