@@ -1,4 +1,4 @@
-import type { HeadingInfo } from './toc.type'
+import type { Area, HeadingInfo } from './toc.type'
 
 export const getAllHeadings = () => {
   const main = document.querySelector('main')
@@ -28,4 +28,17 @@ export const parseHeadingInfo = (headings: Array<Element>): HeadingInfo[] => {
     .filter((headingInfo) => headingInfo.text !== '')
 
   return info
+}
+
+export const parseInitialPosition = (position: { x: number; y: number }, constraints: Area) => {
+  const copy = { ...position }
+
+  if (constraints.bottom < copy.y) {
+    copy.y = constraints.bottom
+  }
+  if (constraints.right < copy.x) {
+    copy.x = constraints.right
+  }
+
+  return copy
 }
