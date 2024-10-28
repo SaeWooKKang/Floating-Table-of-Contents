@@ -27,8 +27,6 @@ export const MotionLayout = (props: Props) => {
     event.preventDefault()
   }
 
-  console.log('MotionLayout:', props.initialPosition)
-
   return (
     <motion.div
       ref={containerRef}
@@ -37,7 +35,7 @@ export const MotionLayout = (props: Props) => {
       dragControls={props.controls}
       dragListener={false}
       onMouseDown={handleDragStart}
-      initial={props.initialPosition.position}
+      initial={props.initialPosition}
       onDragEnd={(_, info) => {
         if (containerRef.current) {
           const transform = window.getComputedStyle(containerRef.current).transform

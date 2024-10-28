@@ -1,14 +1,11 @@
 import { application } from './application/index'
-import { setup } from './setup'
+import { contentsController } from './setup'
 
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   if (message.status === 'on') {
-    const result = await chrome.storage.local.get(['toc'])
+    const setting = await contentsController.getSetting()
 
-    application.on({
-      changePosition: setup.changePosition,
-      position: result.toc ?? setup.position,
-    })
+    application.on(setting)
   }
 })
 

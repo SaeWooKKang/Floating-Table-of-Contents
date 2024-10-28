@@ -20,7 +20,6 @@ const Container = () => {
   const externalStore = useContext(ExternalContext)
 
   if (!externalStore) throw new Error('Missing BearContext.Provider in the tree')
-
   const position = useStore(externalStore, (s) => s.position)
   const changePosition = useStore(externalStore, (s) => s.changePosition)
 
