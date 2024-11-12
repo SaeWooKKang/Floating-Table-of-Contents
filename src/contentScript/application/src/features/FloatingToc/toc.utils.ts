@@ -1,13 +1,23 @@
-import { TOC_TITLE_ID } from './toc.const';
+import { HEADING_SELECTOR_ORDERER, TOC_TITLE_ID } from './toc.const';
 import type { Area, HeadingInfo } from './toc.type'
 
+const getHeadingContainer = () => {
+  for (const selector of HEADING_SELECTOR_ORDERER)  {
+    const container = document.querySelector(selector)
+
+    if (container) {
+      return container
+    }
+  }
+
+  return document
+}
+
 export const getAllHeadings = () => {
-  const main = document.querySelector('main')
-
-  const headings = main
-    ? main.querySelectorAll<HTMLHeadingElement>('h1, h2, h3, h4')
-    : document.querySelectorAll<HTMLHeadingElement>('h1, h2, h3, h4')
-
+  const container = getHeadingContainer()
+  const headings = container
+    .querySelectorAll<HTMLHeadingElement>('h1, h2, h3, h4')
+    
   return Array.from(headings)
 }
 
