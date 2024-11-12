@@ -1,3 +1,4 @@
+import { TOC_TITLE_ID } from './toc.const';
 import type { Area, HeadingInfo } from './toc.type'
 
 export const getAllHeadings = () => {
@@ -7,15 +8,18 @@ export const getAllHeadings = () => {
     ? main.querySelectorAll<HTMLHeadingElement>('h1, h2, h3, h4')
     : document.querySelectorAll<HTMLHeadingElement>('h1, h2, h3, h4')
 
-  return headings
+  return Array.from(headings)
+}
+
+const filterHeadingList = (headings: Array<Element>)=> {
+    return headings
+      .filter((heading) => heading.id !== TOC_TITLE_ID)
+      .filter(heading => heading.textContent !== '')
 }
 
 export const parseHeadingInfo = (headings: Array<Element>): HeadingInfo[] => {
-  headings.forEach((heading, index) => {
-    heading.id = `toc-heading-${index}`
-  })
-
-  const info: HeadingInfo[] = [...headings]
+  const filteredHeadingList = filterHeadingList(headings)
+  const info: HeadingInfo[] = filteredHeadingList
     .map((heading, index) => {
       const [_, level] = [...heading.tagName]
 
@@ -25,7 +29,11 @@ export const parseHeadingInfo = (headings: Array<Element>): HeadingInfo[] => {
         level: Number(level),
       }
     })
-    .filter((headingInfo) => headingInfo.text !== '')
+
+    filteredHeadingList.forEach((heading, index) => {
+      heading.id = `toc-heading-${index}`
+    })
+    
 
   return info
 }

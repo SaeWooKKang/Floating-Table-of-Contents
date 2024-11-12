@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { throttle } from '../../utils/throttle'
-import { TOC_TITLE_ID } from './toc.const'
 import { getAllHeadings, parseHeadingInfo } from './toc.utils'
 
 export const useHeadings = () => {
   const [headings, setHeadings] = useState<Array<HTMLHeadingElement> | null>(null)
 
   useEffect(() => {
-    const headings = Array.from(getAllHeadings()).filter((heading) => heading.id !== TOC_TITLE_ID)
+    const headings = getAllHeadings()
+    
     setHeadings(headings)
   }, [])
 
