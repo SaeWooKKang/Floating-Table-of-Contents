@@ -1,4 +1,4 @@
-import { HEADING_SELECTOR_ORDERER, TOC_TITLE_ID } from './toc.const';
+import { HEADING_SELECTOR_ORDERER, NONE_BREAKING_SPACE_UNICODE, TOC_TITLE_ID } from './toc.const';
 import type { Area, HeadingInfo } from './toc.type'
 
 const getHeadingContainer = () => {
@@ -22,9 +22,10 @@ export const getAllHeadings = () => {
 }
 
 const filterHeadingList = (headings: Array<Element>)=> {
-    return headings
-      .filter((heading) => heading.id !== TOC_TITLE_ID)
-      .filter(heading => heading.textContent !== '')
+  return headings
+    .filter((heading) => heading.id !== TOC_TITLE_ID)
+    .filter(heading => heading.textContent !== '')
+    .filter(heading => heading.textContent !== NONE_BREAKING_SPACE_UNICODE)
 }
 
 export const parseHeadingInfo = (headings: Array<Element>): HeadingInfo[] => {

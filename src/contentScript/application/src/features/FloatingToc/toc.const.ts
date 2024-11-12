@@ -4,3 +4,4 @@ export const HEADING_SELECTOR_ORDERER = [
   'main',
   'body article'
 ] as const
+export const NONE_BREAKING_SPACE_UNICODE = '\u00A0'
