@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion'
-import { useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { SwitchCase } from '../../components/SwitchCase'
 import { useHeadings, useTocHighlight } from './toc.hook'
@@ -13,14 +12,11 @@ export const Toc = (props: Props) => {
   const { headings, hasParsedHeading, parsedHeadings } = useHeadings()
   const { activeId, changeActiveId } = useTocHighlight({ headings: headings ?? [] })
 
-  const scrollAreaRef = useRef<HTMLDivElement>(null)
-
   return (
     <motion.nav
       layout
       onClick={props.onTap}
       className="h-[calc(100%-55px)] w-full overflow-auto pt-[15px] pb-[10px] outline-none"
-      ref={scrollAreaRef}
     >
       <SwitchCase
         value={hasParsedHeading ? 'fill' : 'empty'}
