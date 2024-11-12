@@ -23,6 +23,9 @@ export const getAllHeadings = () => {
 
 const filterHeadingList = (headings: Array<Element>)=> {
   return headings
+    .filter(headings => {
+      return !headings.closest('header') && !headings.closest('footer')
+    })
     .filter((heading) => heading.id !== TOC_TITLE_ID)
     .filter(heading => heading.textContent !== '')
     .filter(heading => heading.textContent !== NONE_BREAKING_SPACE_UNICODE)
