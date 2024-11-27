@@ -1,6 +1,8 @@
 import { SizeIcon } from '@radix-ui/react-icons'
-import { type MotionValue, type PanInfo, motion } from 'framer-motion'
-import { useRef } from 'react'
+import { throttle } from 'es-toolkit'
+import { type PanInfo, motion } from 'framer-motion'
+import { useCallback, useRef } from 'react'
+import { FRAME_INTERVAL_MS } from './toc.const'
 import type { Size } from './toc.type'
 
 interface ResizerProps {
@@ -24,15 +26,18 @@ export const Resizer = (props: ResizerProps) => {
     }
   }
 
-  const onPan = (e: PointerEvent, info: PanInfo) => {
-    e.stopPropagation()
-    e.preventDefault()
+  const onPan = useCallback(
+    throttle((e: PointerEvent, info: PanInfo) => {
+      e.stopPropagation()
+      e.preventDefault()
 
-    props.onResize({
-      width: initialDims.current.width + info.offset.x,
-      height: initialDims.current.height + info.offset.y,
-    })
-  }
+      props.onResize({
+        width: initialDims.current.width + info.offset.x,
+        height: initialDims.current.height + info.offset.y,
+      })
+    }, FRAME_INTERVAL_MS),
+    [],
+  )
 
   const onPanEnd = (e: PointerEvent, info: PanInfo) => {
     initialDims.current = {
