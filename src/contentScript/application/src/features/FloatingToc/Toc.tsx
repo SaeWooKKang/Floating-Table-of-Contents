@@ -5,52 +5,9 @@ import { twMerge } from 'tailwind-merge'
 import { SwitchCase } from '../../components/SwitchCase'
 import { useHeadings, useTocHighlight } from './toc.hook'
 
-interface Props {
-  onResize: (p: { width: number; height: number }) => void
-  size: { width: number; height: number }
-}
-
-export const Toc = (props: Props) => {
+export const Toc = () => {
   const { headings, hasParsedHeading, parsedHeadings } = useHeadings()
   const { activeId, changeActiveId } = useTocHighlight({ headings: headings ?? [] })
-
-  const widthMotionValue = useMotionValue(props.size.width)
-  const heightMotionValue = useMotionValue(props.size.height)
-  const width = useTransform(widthMotionValue, (latest) => latest)
-  const height = useTransform(heightMotionValue, (latest) => latest)
-
-  const initialDims = useRef({
-    width: widthMotionValue.get(),
-    height: heightMotionValue.get(),
-    isResizing: false,
-  })
-
-  const onPanStart = (e: PointerEvent, info: PanInfo) => {
-    e.stopPropagation()
-    e.preventDefault()
-    initialDims.current = {
-      width: widthMotionValue.get(),
-      height: heightMotionValue.get(),
-      isResizing: true,
-    }
-  }
-
-  const onPan = (e: PointerEvent, info: PanInfo) => {
-    e.stopPropagation()
-    e.preventDefault()
-    widthMotionValue.set(initialDims.current.width + info.offset.x)
-    heightMotionValue.set(initialDims.current.height + info.offset.y)
-
-    props.onResize({ width: width.get(), height: height.get() })
-  }
-
-  const onPanEnd = (e: PointerEvent, info: PanInfo) => {
-    initialDims.current = {
-      width: widthMotionValue.get(),
-      height: heightMotionValue.get(),
-      isResizing: true,
-    }
-  }
 
   return (
     <motion.nav
@@ -99,15 +56,6 @@ export const Toc = (props: Props) => {
           ),
         }}
       />
-
-      <motion.button
-        onPan={onPan}
-        onPanStart={onPanStart}
-        onPanEnd={onPanEnd}
-        className="absolute right-1 bottom-1 rotate-90 rounded-md border-2 border-rose-200 p-1"
-      >
-        <SizeIcon />
-      </motion.button>
     </motion.nav>
   )
 }

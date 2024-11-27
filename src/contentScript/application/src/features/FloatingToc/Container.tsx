@@ -1,12 +1,13 @@
-import { useReducer } from 'react'
+import { useReducer, useRef } from 'react'
 
-import { useDragControls } from 'framer-motion'
+import { type PanInfo, motion, useDragControls, useMotionValue, useTransform } from 'framer-motion'
 import { MotionLayout } from './MotionLayout'
 import { Toc } from './Toc'
 
 import { Header } from './Header'
 import { Layout } from './Layout'
 
+import { SizeIcon } from '@radix-ui/react-icons'
 import { Divider } from '../../components/Divider'
 import { useExternalActions, useInitialPosition } from '../../store/external'
 import { TOC_INITIAL_STATE, tocReducer } from './toc.reducer'
@@ -36,6 +37,44 @@ const Container = () => {
 
   const parsedInitialPosition = parseInitialPosition(position, constraints)
 
+  const widthMotionValue = useMotionValue(toc.size.width)
+  const heightMotionValue = useMotionValue(toc.size.height)
+  const width = useTransform(widthMotionValue, (latest) => latest)
+  const height = useTransform(heightMotionValue, (latest) => latest)
+
+  const initialDims = useRef({
+    width: widthMotionValue.get(),
+    height: heightMotionValue.get(),
+    isResizing: false,
+  })
+
+  const onPanStart = (e: PointerEvent, info: PanInfo) => {
+    e.stopPropagation()
+    e.preventDefault()
+    initialDims.current = {
+      width: widthMotionValue.get(),
+      height: heightMotionValue.get(),
+      isResizing: true,
+    }
+  }
+
+  const onPan = (e: PointerEvent, info: PanInfo) => {
+    e.stopPropagation()
+    e.preventDefault()
+    widthMotionValue.set(initialDims.current.width + info.offset.x)
+    heightMotionValue.set(initialDims.current.height + info.offset.y)
+
+    handleResize({ width: width.get(), height: height.get() })
+  }
+
+  const onPanEnd = (e: PointerEvent, info: PanInfo) => {
+    initialDims.current = {
+      width: widthMotionValue.get(),
+      height: heightMotionValue.get(),
+      isResizing: true,
+    }
+  }
+
   return (
     <Layout>
       <MotionLayout
@@ -49,7 +88,18 @@ const Container = () => {
 
         <Divider />
 
-        <Toc onResize={handleResize} size={toc.size} />
+        <Toc />
+
+        <div className="sticky right-2 bottom-2 flex justify-end pr-[10px]">
+          <motion.button
+            onPan={onPan}
+            onPanStart={onPanStart}
+            onPanEnd={onPanEnd}
+            className="rotate-90 rounded-md border-2 border-rose-200 p-1"
+          >
+            <SizeIcon />
+          </motion.button>
+        </div>
       </MotionLayout>
     </Layout>
   )
