@@ -1,10 +1,11 @@
-import { useDragControls, useMotionValue, useTransform } from 'framer-motion'
+import { motionValue, useDragControls, useMotionValue, useTransform } from 'framer-motion'
 import { MotionLayout } from './MotionLayout'
 import { Toc } from './Toc'
 
 import { Header } from './Header'
 import { Layout } from './Layout'
 
+import { useEffect, useRef } from 'react'
 import { Divider } from '../../components/Divider'
 import { useExternalActions, useInitialPosition } from '../../store/external'
 import { Resizer } from './Resizer'
@@ -22,15 +23,30 @@ const Container = () => {
 
   const widthMotionValue = useMotionValue(300)
   const heightMotionValue = useMotionValue(300)
-  const width = useTransform(widthMotionValue, (latest) => latest)
-  const height = useTransform(heightMotionValue, (latest) => latest)
-  const constraints = {
+
+  const { current: constraints } = useRef({
     left: 0,
     top: 0,
     bottom: window.innerHeight - heightMotionValue.get(),
     right: document.documentElement.scrollWidth - widthMotionValue.get(),
-  }
+  })
+
   const parsedInitialPosition = parseInitialPosition(position, constraints)
+
+  useEffect(() => {
+    const unSubscribeWidth = widthMotionValue.on('change', (value) => {
+      constraints.right = document.documentElement.scrollWidth - value
+    })
+
+    const unSubscribeHeight = heightMotionValue.on('change', (value) => {
+      constraints.bottom = window.innerHeight - value
+    })
+
+    return () => {
+      unSubscribeWidth()
+      unSubscribeHeight()
+    }
+  }, [widthMotionValue, heightMotionValue])
 
   return (
     <Layout>
@@ -38,8 +54,8 @@ const Container = () => {
         constraints={constraints}
         controls={controls}
         tocSize={{
-          width,
-          height,
+          width: widthMotionValue,
+          height: heightMotionValue,
         }}
         initialPosition={parsedInitialPosition}
         onDragEnd={changePosition}
