@@ -9,6 +9,7 @@ import { useEffect, useRef } from 'react'
 import { Divider } from '../../components/Divider'
 import { useExternalActions, useInitialPosition, useInitialSize } from '../../store/external'
 import { Resizer } from './Resizer'
+import type { Size } from './toc.type'
 import { parseInitialPosition } from './toc.utils'
 
 const Container = () => {
@@ -50,7 +51,7 @@ const Container = () => {
     }
   }, [changeSize, sizeMotionValue])
 
-  const handleResize = (size: { width: number; height: number }) => {
+  const handleResize = (size: Size) => {
     sizeMotionValue.set(size)
   }
 

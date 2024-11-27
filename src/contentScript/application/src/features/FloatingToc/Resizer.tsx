@@ -1,13 +1,11 @@
 import { SizeIcon } from '@radix-ui/react-icons'
 import { type MotionValue, type PanInfo, motion } from 'framer-motion'
 import { useRef } from 'react'
+import type { Size } from './toc.type'
 
 interface ResizerProps {
-  size: {
-    width: number
-    height: number
-  }
-  onResize: (size: { width: number; height: number }) => void
+  size: Size
+  onResize: (size: Size) => void
 }
 
 export const Resizer = (props: ResizerProps) => {

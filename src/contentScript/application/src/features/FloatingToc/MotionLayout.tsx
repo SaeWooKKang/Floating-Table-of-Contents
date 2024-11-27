@@ -1,5 +1,6 @@
 import { type DragControls, type MotionValue, motion, useTransform } from 'framer-motion'
 import { type MouseEvent, useEffect, useRef } from 'react'
+import type { Size } from './toc.type'
 
 interface Props {
   children: React.ReactNode
@@ -10,10 +11,7 @@ interface Props {
     top: number
     bottom: number
   }
-  tocSize: MotionValue<{
-    width: number
-    height: number
-  }>
+  tocSize: MotionValue<Size>
   initialPosition: {
     x: number
     y: number
