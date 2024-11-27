@@ -4,7 +4,6 @@ import { TOC_TITLE_ID } from './toc.const'
 
 interface Props {
   onPointerDown: (e: React.PointerEvent<HTMLDivElement>) => void
-  showBigger: boolean
 }
 export const Header = (props: Props) => {
   const [isGrabbing, setIsGrabbing] = useState(false)
@@ -32,13 +31,10 @@ export const Header = (props: Props) => {
         id={TOC_TITLE_ID}
         className="relative px-[10px] font-bold text-toc-black"
         style={{
-          fontSize: props.showBigger ? '16px' : '13px',
+          fontSize: '16px',
         }}
       >
-        <span
-          className="absolute left-[-15px]"
-          style={{ display: props.showBigger ? 'block' : 'none' }}
-        >
+        <span className="absolute left-[-15px]" style={{ display: 'block' }}>
           ☁️
         </span>
         <span className="font-bold">Floating Table of Contents</span>

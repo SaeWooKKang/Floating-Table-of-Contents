@@ -38,6 +38,10 @@ export const useInitialPosition = () => {
   return useExternalContext(({ position }) => position)
 }
 
+export const useInitialSize = () => {
+  return useExternalContext(({ size }) => size)
+}
+
 export const useExternalActions = () => {
   return useExternalContext(({ action }) => action)
 }

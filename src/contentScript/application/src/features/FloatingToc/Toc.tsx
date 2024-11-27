@@ -1,22 +1,18 @@
-import { motion } from 'framer-motion'
+import { SizeIcon } from '@radix-ui/react-icons'
+import { type PanInfo, motion, useMotionValue, useTransform } from 'framer-motion'
+import { useCallback, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { SwitchCase } from '../../components/SwitchCase'
 import { useHeadings, useTocHighlight } from './toc.hook'
 
-interface Props {
-  onTap: () => void
-  showBigger: boolean
-}
-
-export const Toc = (props: Props) => {
+export const Toc = () => {
   const { headings, hasParsedHeading, parsedHeadings } = useHeadings()
   const { activeId, changeActiveId } = useTocHighlight({ headings: headings ?? [] })
 
   return (
     <motion.nav
       layout
-      onClick={props.onTap}
-      className="h-[calc(100%-55px)] w-full overflow-auto pt-[15px] pb-[10px] outline-none"
+      className="relative h-[calc(100%-55px)] w-full overflow-auto pt-[15px] pb-[10px] outline-none"
     >
       <SwitchCase
         value={hasParsedHeading ? 'fill' : 'empty'}
@@ -25,7 +21,7 @@ export const Toc = (props: Props) => {
             <ul
               className="flex flex-col gap-[5px] text-toc-black"
               style={{
-                fontSize: props.showBigger ? '16px' : '13px',
+                fontSize: '16px',
               }}
             >
               {parsedHeadings?.map((headingInfo) => {

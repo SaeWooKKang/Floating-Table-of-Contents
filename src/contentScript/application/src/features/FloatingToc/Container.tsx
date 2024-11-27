@@ -1,31 +1,22 @@
-import { useReducer, useRef } from 'react'
-
-import { useDragControls } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useDragControls, useMotionValue, useTransform } from 'framer-motion'
 import { MotionLayout } from './MotionLayout'
 import { Toc } from './Toc'
 
 import { Header } from './Header'
 import { Layout } from './Layout'
 
+import { useEffect, useRef } from 'react'
 import { Divider } from '../../components/Divider'
-import { useExternalActions, useInitialPosition } from '../../store/external'
-import { TOC_INITIAL_STATE, tocReducer } from './toc.reducer'
+import { useExternalActions, useInitialPosition, useInitialSize } from '../../store/external'
+import { Resizer } from './Resizer'
+import type { Size } from './toc.type'
 import { parseInitialPosition } from './toc.utils'
 
 const Container = () => {
-  const [toc, dispatch] = useReducer(tocReducer, TOC_INITIAL_STATE)
-  const constraints = {
-    left: 0,
-    top: 0,
-    bottom: window.innerHeight - toc.size.height,
-    right: document.documentElement.scrollWidth - toc.size.width,
-  }
-
   const position = useInitialPosition()
-  const { changePosition } = useExternalActions()
+  const size = useInitialSize()
 
-  const showBigger = toc.type === 'bigger'
+  const { changePosition, changeSize } = useExternalActions()
 
   const controls = useDragControls()
 
@@ -33,26 +24,59 @@ const Container = () => {
     controls.start(e)
   }
 
-  const handleTap = () => {
-    dispatch({ type: showBigger ? 'smaller' : 'bigger' })
-  }
+  const sizeMotionValue = useMotionValue({
+    width: size.width,
+    height: size.height,
+  })
+
+  const { current: constraints } = useRef({
+    left: 0,
+    top: 0,
+    bottom: window.innerHeight - sizeMotionValue.get().height,
+    right: document.documentElement.scrollWidth - sizeMotionValue.get().width,
+  })
 
   const parsedInitialPosition = parseInitialPosition(position, constraints)
+
+  useEffect(() => {
+    const unSubscribeSize = sizeMotionValue.on('change', (value) => {
+      constraints.right = document.documentElement.scrollWidth - value.width
+      constraints.bottom = window.innerHeight - value.height
+
+      changeSize((prev) => ({ ...value }))
+    })
+
+    return () => {
+      unSubscribeSize()
+    }
+  }, [changeSize, sizeMotionValue])
+
+  const handleResize = (size: Size) => {
+    sizeMotionValue.set(size)
+  }
 
   return (
     <Layout>
       <MotionLayout
         constraints={constraints}
         controls={controls}
-        tocSize={toc.size}
+        tocSize={sizeMotionValue}
         initialPosition={parsedInitialPosition}
         onDragEnd={changePosition}
       >
-        <Header onPointerDown={handlePointerDown} showBigger={showBigger} />
+        <Header onPointerDown={handlePointerDown} />
 
         <Divider />
 
-        <Toc onTap={handleTap} showBigger={showBigger} />
+        <Toc />
+
+        <Resizer
+          size={{
+            width: sizeMotionValue.get().width,
+            height: sizeMotionValue.get().height,
+          }}
+          onResize={handleResize}
+        />
       </MotionLayout>
     </Layout>
   )

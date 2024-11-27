@@ -5,3 +5,5 @@ export type HeadingInfo = {
 }
 
 export type Area = { left: number; right: number; top: number; bottom: number }
+
+export type Size = { width: number; height: number }

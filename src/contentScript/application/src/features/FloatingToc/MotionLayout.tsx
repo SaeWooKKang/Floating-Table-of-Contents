@@ -1,5 +1,6 @@
-import { type DragControls, motion } from 'framer-motion'
+import { type DragControls, type MotionValue, motion, useTransform } from 'framer-motion'
 import { type MouseEvent, useEffect, useRef } from 'react'
+import type { Size } from './toc.type'
 
 interface Props {
   children: React.ReactNode
@@ -10,10 +11,7 @@ interface Props {
     top: number
     bottom: number
   }
-  tocSize: {
-    width: number
-    height: number
-  }
+  tocSize: MotionValue<Size>
   initialPosition: {
     x: number
     y: number
@@ -23,6 +21,9 @@ interface Props {
 
 export const MotionLayout = (props: Props) => {
   const containerRef = useRef<HTMLDivElement>(null)
+
+  const widthMotionValue = useTransform(() => props.tocSize.get().width)
+  const heightMotionValue = useTransform(() => props.tocSize.get().height)
 
   const handleDragStart = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
@@ -57,8 +58,8 @@ export const MotionLayout = (props: Props) => {
       }}
       className="pointer-events-auto fixed overflow-hidden rounded-[10px] bg-white shadow-[0_1px_2px_0_rgba(60,64,67,0.3),0_2px_6px_2px_rgba(60,64,67,0.15)]"
       style={{
-        width: props.tocSize.width,
-        height: props.tocSize.height,
+        width: widthMotionValue,
+        height: heightMotionValue,
       }}
     >
       {props.children}
