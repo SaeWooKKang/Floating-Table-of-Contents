@@ -1,7 +1,6 @@
-import { useReducer, useRef } from 'react'
+import { useReducer } from 'react'
 
 import { useDragControls } from 'framer-motion'
-import { useEffect, useState } from 'react'
 import { MotionLayout } from './MotionLayout'
 import { Toc } from './Toc'
 
@@ -25,16 +24,14 @@ const Container = () => {
   const position = useInitialPosition()
   const { changePosition } = useExternalActions()
 
-  const showBigger = toc.type === 'bigger'
-
   const controls = useDragControls()
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     controls.start(e)
   }
 
-  const handleTap = () => {
-    dispatch({ type: showBigger ? 'smaller' : 'bigger' })
+  const handleResize = (p: { width: number; height: number }) => {
+    dispatch({ type: 'resize', payload: { height: p.height, width: p.width } })
   }
 
   const parsedInitialPosition = parseInitialPosition(position, constraints)
@@ -48,11 +45,11 @@ const Container = () => {
         initialPosition={parsedInitialPosition}
         onDragEnd={changePosition}
       >
-        <Header onPointerDown={handlePointerDown} showBigger={showBigger} />
+        <Header onPointerDown={handlePointerDown} />
 
         <Divider />
 
-        <Toc onTap={handleTap} showBigger={showBigger} />
+        <Toc onResize={handleResize} size={toc.size} />
       </MotionLayout>
     </Layout>
   )
