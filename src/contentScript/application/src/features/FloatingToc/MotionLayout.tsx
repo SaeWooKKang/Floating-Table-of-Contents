@@ -1,4 +1,4 @@
-import { type DragControls, motion } from 'framer-motion'
+import { type DragControls, type MotionValue, motion } from 'framer-motion'
 import { type MouseEvent, useEffect, useRef } from 'react'
 
 interface Props {
@@ -11,8 +11,8 @@ interface Props {
     bottom: number
   }
   tocSize: {
-    width: number
-    height: number
+    width: MotionValue<number>
+    height: MotionValue<number>
   }
   initialPosition: {
     x: number
