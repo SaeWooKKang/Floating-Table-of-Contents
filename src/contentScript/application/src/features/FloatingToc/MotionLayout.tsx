@@ -41,6 +41,7 @@ export const MotionLayout = (props: Props) => {
     props.onDragEnd(translateX, translateY)
   }
 
+  props.tocSize
   return (
     <motion.div
       ref={containerRef}
@@ -57,8 +58,7 @@ export const MotionLayout = (props: Props) => {
       }}
       className="pointer-events-auto fixed overflow-hidden rounded-[10px] bg-white shadow-[0_1px_2px_0_rgba(60,64,67,0.3),0_2px_6px_2px_rgba(60,64,67,0.15)]"
       style={{
-        width: props.tocSize.width,
-        height: props.tocSize.height,
+        ...props.tocSize,
       }}
     >
       {props.children}

@@ -52,7 +52,6 @@ export const contentsController = {
     storage.setToc({ position })
   },
   changeSize: (width: number, height: number) => {
-    console.log('changeSize triggered', width, height)
     storage.setSize({ width, height })
   },
   getSetting: async (): Promise<Setting> => {
@@ -60,8 +59,6 @@ export const contentsController = {
     const sizeResult = await storage.getSize()
 
     const size = sizeResult[TOC_SIZE_KEY]?.size ?? INITIAL_SIZE
-
-    console.log('sizeResult', size)
 
     return {
       position: result[TOC_KEY]?.position ?? INITIAL_POSITION,

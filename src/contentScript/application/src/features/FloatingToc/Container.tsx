@@ -1,4 +1,4 @@
-import { motionValue, useDragControls, useMotionValue, useTransform } from 'framer-motion'
+import { useDragControls, useMotionValue, useTransform } from 'framer-motion'
 import { MotionLayout } from './MotionLayout'
 import { Toc } from './Toc'
 
@@ -23,8 +23,13 @@ const Container = () => {
     controls.start(e)
   }
 
-  const widthMotionValue = useMotionValue(size.width)
-  const heightMotionValue = useMotionValue(size.height)
+  const sizeMotionValue = useMotionValue({
+    width: size.width,
+    height: size.height,
+  })
+
+  const widthMotionValue = useTransform(() => sizeMotionValue.get().width)
+  const heightMotionValue = useTransform(() => sizeMotionValue.get().height)
 
   const { current: constraints } = useRef({
     left: 0,
@@ -36,31 +41,28 @@ const Container = () => {
   const parsedInitialPosition = parseInitialPosition(position, constraints)
 
   useEffect(() => {
-    const unSubscribeWidth = widthMotionValue.on('change', (value) => {
-      constraints.right = document.documentElement.scrollWidth - value
-      changeSize((prev) => ({ ...prev, width: value }))
-    })
+    const unSubscribeSize = sizeMotionValue.on('change', (value) => {
+      constraints.right = document.documentElement.scrollWidth - value.width
+      constraints.bottom = window.innerHeight - value.height
 
-    const unSubscribeHeight = heightMotionValue.on('change', (value) => {
-      constraints.bottom = window.innerHeight - value
-      changeSize((prev) => ({ ...prev, height: value }))
+      changeSize((prev) => ({ ...value }))
     })
 
     return () => {
-      unSubscribeWidth()
-      unSubscribeHeight()
+      unSubscribeSize()
     }
-  }, [widthMotionValue, heightMotionValue, changeSize])
+  }, [changeSize, sizeMotionValue])
+
+  const handleResize = (size: { width: number; height: number }) => {
+    sizeMotionValue.set(size)
+  }
 
   return (
     <Layout>
       <MotionLayout
         constraints={constraints}
         controls={controls}
-        tocSize={{
-          width: widthMotionValue,
-          height: heightMotionValue,
-        }}
+        tocSize={{ width: widthMotionValue, height: heightMotionValue }}
         initialPosition={parsedInitialPosition}
         onDragEnd={changePosition}
       >
@@ -70,7 +72,13 @@ const Container = () => {
 
         <Toc />
 
-        <Resizer width={widthMotionValue} height={heightMotionValue} />
+        <Resizer
+          size={{
+            width: widthMotionValue.get(),
+            height: heightMotionValue.get(),
+          }}
+          onResize={handleResize}
+        />
       </MotionLayout>
     </Layout>
   )

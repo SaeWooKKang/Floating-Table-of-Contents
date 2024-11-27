@@ -3,14 +3,17 @@ import { type MotionValue, type PanInfo, motion } from 'framer-motion'
 import { useRef } from 'react'
 
 interface ResizerProps {
-  width: MotionValue<number>
-  height: MotionValue<number>
+  size: {
+    width: number
+    height: number
+  }
+  onResize: (size: { width: number; height: number }) => void
 }
 
 export const Resizer = (props: ResizerProps) => {
   const initialDims = useRef({
-    width: props.width.get(),
-    height: props.height.get(),
+    width: props.size.width,
+    height: props.size.height,
   })
 
   const onPanStart = (e: PointerEvent, info: PanInfo) => {
@@ -18,8 +21,8 @@ export const Resizer = (props: ResizerProps) => {
     e.preventDefault()
 
     initialDims.current = {
-      width: props.width.get(),
-      height: props.height.get(),
+      width: props.size.width,
+      height: props.size.height,
     }
   }
 
@@ -27,14 +30,16 @@ export const Resizer = (props: ResizerProps) => {
     e.stopPropagation()
     e.preventDefault()
 
-    props.width.set(initialDims.current.width + info.offset.x)
-    props.height.set(initialDims.current.height + info.offset.y)
+    props.onResize({
+      width: initialDims.current.width + info.offset.x,
+      height: initialDims.current.height + info.offset.y,
+    })
   }
 
   const onPanEnd = (e: PointerEvent, info: PanInfo) => {
     initialDims.current = {
-      width: props.width.get(),
-      height: props.height.get(),
+      width: props.size.width,
+      height: props.size.height,
     }
   }
 
