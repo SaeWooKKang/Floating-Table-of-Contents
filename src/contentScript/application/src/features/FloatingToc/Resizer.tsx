@@ -44,7 +44,7 @@ export const Resizer = (props: ResizerProps) => {
         onPan={onPan}
         onPanStart={onPanStart}
         onPanEnd={onPanEnd}
-        className="rotate-90 rounded-md border-2 border-rose-200 p-1"
+        className="rotate-90 rounded-full bg-[#fbffb3] p-[6px]"
       >
         <SizeIcon />
       </motion.button>
