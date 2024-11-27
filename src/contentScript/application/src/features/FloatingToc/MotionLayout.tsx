@@ -1,4 +1,4 @@
-import { type DragControls, type MotionValue, motion } from 'framer-motion'
+import { type DragControls, type MotionValue, motion, useTransform } from 'framer-motion'
 import { type MouseEvent, useEffect, useRef } from 'react'
 
 interface Props {
@@ -10,10 +10,10 @@ interface Props {
     top: number
     bottom: number
   }
-  tocSize: {
-    width: MotionValue<number>
-    height: MotionValue<number>
-  }
+  tocSize: MotionValue<{
+    width: number
+    height: number
+  }>
   initialPosition: {
     x: number
     y: number
@@ -23,6 +23,9 @@ interface Props {
 
 export const MotionLayout = (props: Props) => {
   const containerRef = useRef<HTMLDivElement>(null)
+
+  const widthMotionValue = useTransform(() => props.tocSize.get().width)
+  const heightMotionValue = useTransform(() => props.tocSize.get().height)
 
   const handleDragStart = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
@@ -41,7 +44,6 @@ export const MotionLayout = (props: Props) => {
     props.onDragEnd(translateX, translateY)
   }
 
-  props.tocSize
   return (
     <motion.div
       ref={containerRef}
@@ -58,7 +60,8 @@ export const MotionLayout = (props: Props) => {
       }}
       className="pointer-events-auto fixed overflow-hidden rounded-[10px] bg-white shadow-[0_1px_2px_0_rgba(60,64,67,0.3),0_2px_6px_2px_rgba(60,64,67,0.15)]"
       style={{
-        ...props.tocSize,
+        width: widthMotionValue,
+        height: heightMotionValue,
       }}
     >
       {props.children}

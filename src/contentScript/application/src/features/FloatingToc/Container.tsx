@@ -28,14 +28,11 @@ const Container = () => {
     height: size.height,
   })
 
-  const widthMotionValue = useTransform(() => sizeMotionValue.get().width)
-  const heightMotionValue = useTransform(() => sizeMotionValue.get().height)
-
   const { current: constraints } = useRef({
     left: 0,
     top: 0,
-    bottom: window.innerHeight - heightMotionValue.get(),
-    right: document.documentElement.scrollWidth - widthMotionValue.get(),
+    bottom: window.innerHeight - sizeMotionValue.get().height,
+    right: document.documentElement.scrollWidth - sizeMotionValue.get().width,
   })
 
   const parsedInitialPosition = parseInitialPosition(position, constraints)
@@ -62,7 +59,7 @@ const Container = () => {
       <MotionLayout
         constraints={constraints}
         controls={controls}
-        tocSize={{ width: widthMotionValue, height: heightMotionValue }}
+        tocSize={sizeMotionValue}
         initialPosition={parsedInitialPosition}
         onDragEnd={changePosition}
       >
@@ -74,8 +71,8 @@ const Container = () => {
 
         <Resizer
           size={{
-            width: widthMotionValue.get(),
-            height: heightMotionValue.get(),
+            width: sizeMotionValue.get().width,
+            height: sizeMotionValue.get().height,
           }}
           onResize={handleResize}
         />
