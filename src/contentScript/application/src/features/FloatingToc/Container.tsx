@@ -1,15 +1,13 @@
-import { useRef } from 'react'
-
-import { type PanInfo, motion, useDragControls, useMotionValue, useTransform } from 'framer-motion'
+import { useDragControls, useMotionValue, useTransform } from 'framer-motion'
 import { MotionLayout } from './MotionLayout'
 import { Toc } from './Toc'
 
 import { Header } from './Header'
 import { Layout } from './Layout'
 
-import { SizeIcon } from '@radix-ui/react-icons'
 import { Divider } from '../../components/Divider'
 import { useExternalActions, useInitialPosition } from '../../store/external'
+import { Resizer } from './Resizer'
 import { parseInitialPosition } from './toc.utils'
 
 const Container = () => {
@@ -33,35 +31,6 @@ const Container = () => {
     right: document.documentElement.scrollWidth - widthMotionValue.get(),
   }
   const parsedInitialPosition = parseInitialPosition(position, constraints)
-  const initialDims = useRef({
-    width: widthMotionValue.get(),
-    height: heightMotionValue.get(),
-  })
-
-  const onPanStart = (e: PointerEvent, info: PanInfo) => {
-    e.stopPropagation()
-    e.preventDefault()
-
-    initialDims.current = {
-      width: widthMotionValue.get(),
-      height: heightMotionValue.get(),
-    }
-  }
-
-  const onPan = (e: PointerEvent, info: PanInfo) => {
-    e.stopPropagation()
-    e.preventDefault()
-
-    widthMotionValue.set(initialDims.current.width + info.offset.x)
-    heightMotionValue.set(initialDims.current.height + info.offset.y)
-  }
-
-  const onPanEnd = (e: PointerEvent, info: PanInfo) => {
-    initialDims.current = {
-      width: widthMotionValue.get(),
-      height: heightMotionValue.get(),
-    }
-  }
 
   return (
     <Layout>
@@ -81,16 +50,7 @@ const Container = () => {
 
         <Toc />
 
-        <div className="sticky right-2 bottom-2 flex justify-end pr-[10px]">
-          <motion.button
-            onPan={onPan}
-            onPanStart={onPanStart}
-            onPanEnd={onPanEnd}
-            className="rotate-90 rounded-md border-2 border-rose-200 p-1"
-          >
-            <SizeIcon />
-          </motion.button>
-        </div>
+        <Resizer width={widthMotionValue} height={heightMotionValue} />
       </MotionLayout>
     </Layout>
   )
