@@ -7,13 +7,15 @@ import { Layout } from './Layout'
 
 import { useEffect, useRef } from 'react'
 import { Divider } from '../../components/Divider'
-import { useExternalActions, useInitialPosition } from '../../store/external'
+import { useExternalActions, useInitialPosition, useInitialSize } from '../../store/external'
 import { Resizer } from './Resizer'
 import { parseInitialPosition } from './toc.utils'
 
 const Container = () => {
   const position = useInitialPosition()
-  const { changePosition } = useExternalActions()
+  const size = useInitialSize()
+
+  const { changePosition, changeSize } = useExternalActions()
 
   const controls = useDragControls()
 
@@ -21,8 +23,8 @@ const Container = () => {
     controls.start(e)
   }
 
-  const widthMotionValue = useMotionValue(300)
-  const heightMotionValue = useMotionValue(300)
+  const widthMotionValue = useMotionValue(size.width)
+  const heightMotionValue = useMotionValue(size.height)
 
   const { current: constraints } = useRef({
     left: 0,
@@ -36,17 +38,19 @@ const Container = () => {
   useEffect(() => {
     const unSubscribeWidth = widthMotionValue.on('change', (value) => {
       constraints.right = document.documentElement.scrollWidth - value
+      changeSize((prev) => ({ ...prev, width: value }))
     })
 
     const unSubscribeHeight = heightMotionValue.on('change', (value) => {
       constraints.bottom = window.innerHeight - value
+      changeSize((prev) => ({ ...prev, height: value }))
     })
 
     return () => {
       unSubscribeWidth()
       unSubscribeHeight()
     }
-  }, [widthMotionValue, heightMotionValue])
+  }, [widthMotionValue, heightMotionValue, changeSize])
 
   return (
     <Layout>
