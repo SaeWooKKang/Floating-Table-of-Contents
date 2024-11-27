@@ -4,7 +4,7 @@ Explore documents with ease and float your ToC anywhere!
 
 ## Features
 - ☁️ Float ToC anywhere
-- 📐 Resize with a tab
+- 📐 Resize ToC with drag handle
 - 🛫 Click titles to jump
 - 🔦 Highlight current section
 
